@@ -21,4 +21,5 @@ services:
       - .:/app
     environment:
       DATABASE_URL: 'postgres://root:web_radgj@123@db:5432/web_db'
+      
 
