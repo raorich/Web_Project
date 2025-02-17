@@ -22,6 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY","default-key")
+DATABASES = {
+  'default': {
+  'ENGINE': 'django.db.backends.postgresql_psycopg2',
+  'NAME': 'web_db',
+  'USER' : 'root',
+  'PASSWORD' : 'web_radgj@123',
+  'HOST' : 'localhost',
+  'PORT' : '5432',
+  }
+}
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
