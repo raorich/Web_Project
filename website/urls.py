@@ -5,7 +5,5 @@ from . import views
 # Routes that can we access in our websites
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('', views.home, name='home')
 ] 
