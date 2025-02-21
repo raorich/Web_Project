@@ -1,1 +1,4 @@
 .env
+./DjangoProject/__pycache__
+./website/__pycache__
+./website/migrations
