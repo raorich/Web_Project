@@ -6,7 +6,3 @@ from django.shortcuts import redirect
 
 def home(request):
     return render(request, 'home.html')
-
-def logout_view(request):
-    auth_logout(request)
-    return redirect('home')
