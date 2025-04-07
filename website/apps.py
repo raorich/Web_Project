@@ -1,4 +1,4 @@
-from django.apps import Store
+from django.apps import AppConfig
 
 
 class WebConfig(AppConfig):
