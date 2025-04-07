@@ -1,22 +1,10 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_DB: web_db
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: web_radgj@123
-    ports:
-      - "5432:5432"
-
   web:
     build: .
     env_file:
       - .env
-    depends_on:
-      - db
     ports:
       - "8000:8000"
     volumes:

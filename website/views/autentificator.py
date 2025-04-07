@@ -1,9 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from website.forms.form_login import UserRegister
-
-#forms.form_login
-
 def register(request):
     if request.method == 'POST':
         form = UserRegister(request.POST)
@@ -21,6 +18,7 @@ def user_login(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            print('correct')
             login(request, user)
             return redirect('home')
     return render(request, 'login.html') #redirigir a otra pagina, home con cookies
