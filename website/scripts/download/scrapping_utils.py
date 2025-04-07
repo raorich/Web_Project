@@ -21,7 +21,6 @@ class WebScrapper():
     def read_url(self):
         t = self.retry
         while True:
-            if t <= 0: break
             print(f'Requesting url: {self.url}')
             response : requests.Response = requests.get(self.url)
             try:
@@ -33,10 +32,10 @@ class WebScrapper():
                 break
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}")
-                time.sleep(5)
+                if t <= 0: break
                 t -= 1
-
-
+                time.sleep(5)
+                
     def get_soup(self) -> BeautifulSoup:
         return self.soup
     
