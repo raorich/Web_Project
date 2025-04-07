@@ -2,3 +2,4 @@
 website/migrations
 *.pyc
 __pycache__/
+web_db.sqlite3
