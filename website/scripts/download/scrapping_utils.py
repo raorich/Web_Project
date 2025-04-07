@@ -32,8 +32,8 @@ class WebScrapper():
                 break
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}")
-                if t <= 0: break
                 t -= 1
+                if t <= 0: break
                 time.sleep(5)
                 
     def get_soup(self) -> BeautifulSoup:
