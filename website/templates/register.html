@@ -1,42 +1,68 @@
 {% extends 'base.html' %}
 
-{% block title %}Register - Library{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
-<div class="login-container">
-    <h1>Register</h1>
-    <form method="post" class="login-form">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+<div class="bg-white login-container">
+    <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      <div class="mx-auto w-full max-w-sm">
+        <div>
+          <h2 class="mt-6 text-3xl leading-9 font-extrabold text-gray-900">
+            Register account
+          </h2>
         </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+        <div class="mt-8">
+          <div class="mt-6">
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                        <input type="text" id="username" name="username" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    </div>
+                </div>
+                <div class="form-group mt-6">
+                    <label for="username">Email</label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                        <input type="email" id="email" name="email" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    </div>
+                </div>
+                <div class="form-group mt-6">
+                    <label for="username">Password</label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                        <input type="password" id="password1" name="password1" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    </div>
+                </div>
+                <div class="form-group mt-6">
+                    <label for="username">Confirm Password</label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                        <input type="password" id="password2" name="password2" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    </div>
+                </div>
+                {% if form.errors %}
+                    <div class="error-message">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                {{ error }}<br>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            {{ error }}<br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="mt-6">
+                    <span class="block w-full rounded-md shadow-sm">
+                        <p class="form-link mb-4">Already have an account? <a href="{% url 'login' %}" class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">Login here</a></p>
+                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                        Register
+                        </button>
+                    </span>
+                </div>
+            </form>
+          </div>
         </div>
-        <div class="form-group">
-            <label for="password1">Password:</label>
-            <input type="password" id="password1" name="password1" required>
-        </div>
-        <div class="form-group">
-            <label for="password2">Confirm Password:</label>
-            <input type="password" id="password2" name="password2" required>
-        </div>
-        {% if form.errors %}
-            <div class="error-message">
-                {% for field in form %}
-                    {% for error in field.errors %}
-                        {{ error }}<br>
-                    {% endfor %}
-                {% endfor %}
-                {% for error in form.non_field_errors %}
-                    {{ error }}<br>
-                {% endfor %}
-            </div>
-        {% endif %}
-        <button type="submit">Register</button>
-        <p class="form-link">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-    </form>
-</div>
+      </div>
+    </div>
+  </div>
 {% endblock %} 
