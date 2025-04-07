@@ -25,8 +25,7 @@ class WebScrapper():
             print(f'Requesting url: {self.url}')
             response : requests.Response = requests.get(self.url)
             try:
-                #response: requests.Response = requests.get(self.url, headers=self.headers, cookies=self.cookies)
-                response: requests.Response = requests.get(self.url)
+                response: requests.Response = requests.get(self.url, headers=self.headers, cookies=self.cookies)
                 response.raise_for_status()
                 self.response = response
                 soup: BeautifulSoup = BeautifulSoup(response.text, 'html.parser')
