@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 
 from scrapping_utils import WebScrapper
 
-BASE_URL: str = ''
+BASE_URL: str = 'https://classiccars.com/'
 
 series_soup = WebScrapper(BASE_URL).get_soup()
+
+pprint(series_soup)

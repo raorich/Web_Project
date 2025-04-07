@@ -9,15 +9,17 @@ import pandas as pd
 
 class WebScrapper():
 
-    def __init__(self, url: str, headers: str, cookies: str):
+    def __init__(self, url: str, headers: dict = None, cookies: dict = None, retry: int = 1):
         self.url: str = url
         self.headers: str = headers
         self.cookies: str = cookies
         self.soup = None 
-        self.response = None 
+        self.response = None
+        self.retry = retry 
         self.read_url()
 
     def read_url(self):
+        t = self.retry
         while True:
             print(f'Requesting url: {self.url}')
             response : requests.Response = requests.get(self.url)
@@ -30,9 +32,10 @@ class WebScrapper():
                 break
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}")
+                t -= 1
+                if t <= 0: break
                 time.sleep(5)
-
-
+                
     def get_soup(self) -> BeautifulSoup:
         return self.soup
     
@@ -44,7 +47,7 @@ class WebScrapper():
         return ' '.join(text.strip().split())
     
 class GenerateCSV():
-    
+
     def __init__(self, filename: str, data: list[dict]):
         self.filename = filename
         self.data = data
