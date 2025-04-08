@@ -1,0 +1,55 @@
+.header-base {
+  @apply text-gray-700 border-b border-gray-200 bg-white fixed top-0 left-0 right-0 z-50;
+}
+
+.header-div {
+  @apply container mx-auto flex flex-wrap flex-col md:flex-row items-center p-5;
+}
+
+.header-a {
+  @apply flex items-center font-medium text-gray-900 mb-4 md:mb-0;
+}
+
+.header-nav {
+  @apply flex flex-wrap items-center justify-center text-base md:ml-auto;
+}
+
+.header-nav-a {
+  @apply mr-5 hover:text-gray-900;
+}
+
+.account-buttons {
+  @apply bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-3 py-2 rounded transition-all flex items-center;
+}
+
+.login-container .centered-login {
+  @apply flex-1 flex flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24;
+}
+
+.login-container .inputs {
+  @apply w-full max-w-sm mx-auto;
+}
+
+.login-container .title {
+  @apply mt-6 text-3xl font-extrabold leading-9 text-gray-900;
+}
+
+.login-container .input-container {
+  @apply mt-1 rounded-md shadow-sm;
+}
+
+.login-container .input-container input {
+  @apply block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5;
+}
+
+.login-container .login-form span {
+  @apply block w-full rounded-md;
+}
+
+.login-container .login-form span a {
+  @apply font-medium text-gray-900 hover:text-amber-600 focus:outline-none focus:underline transition duration-150 ease-in-out;
+}
+
+.login-container .submit-button {
+  @apply flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md border border-transparent bg-gray-900 hover:bg-amber-600 focus:outline-none transition duration-150 ease-in-out;
+}

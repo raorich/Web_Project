@@ -8,32 +8,29 @@
     <link rel="stylesheet" href="{% static './css/main.css' %}">
 </head>
 <body>
-    <header class="text-gray-700 body-font border-b border-gray-200">
-        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="{% url 'home' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+    <header class="header-base">
+        <div class="header-div">
+            <a class="header-a" href="{% url 'home' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-gray-900 rounded-full" viewBox="0 0 24 24">
+                    <path d="M12 3l8 9-8 9-8-9z"></path>
                 </svg>
-                    <span class="ml-3 text-xl">SubasTAME</span>
+                <span class="ml-3 text-xl">SubasTAME</span>
             </a>
-            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                <a class="mr-5 hover:text-gray-900">Home</a>
-                <a class="mr-5 hover:text-gray-900">Subastas</a>
-                <a class="mr-5 hover:text-gray-900">Contact Us</a>
+            <nav class="header-nav">
+                <a class="header-nav-a">Home</a>
+                <a class="header-nav-a">Subastas</a>
+                <a class="header-nav-a">Contact Us</a>
             </nav>
             {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="inline-flex items-center bg-purple-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">Logout
-            </a>
+            <a href="{% url 'logout' %}" class="account-buttons">Logout</a>
             {% else %}
-            <a href="{% url 'login' %}" class="inline-flex items-center bg-purple-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0 mr-5">Login
-            </a>
-            <a href="{% url 'register' %}" class="inline-flex items-center bg-purple-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">Register
-            </a>
+            <a href="{% url 'login' %}" class="account-buttons mr-5">Login</a>
+            <a href="{% url 'register' %}" class="account-buttons">Register</a>
             {% endif %}
         </div>
     </header>
 
-    <main>
+    <main class="pt-10">
         {% block content %}
         {% endblock %}
     </main>
