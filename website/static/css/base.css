@@ -1,0 +1,19 @@
+.header-base {
+  @apply text-gray-700 border-b border-gray-200 bg-white fixed top-0 left-0 right-0 z-50;
+}
+
+.header-div {
+  @apply container mx-auto flex flex-wrap flex-col md:flex-row items-center p-5;
+}
+
+.header-a {
+  @apply flex items-center font-medium text-gray-900 mb-4 md:mb-0;
+}
+
+.header-nav {
+  @apply flex flex-wrap items-center justify-center text-base md:ml-auto;
+}
+
+.header-nav-a {
+  @apply mr-5 hover:text-gray-900;
+}

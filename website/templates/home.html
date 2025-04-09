@@ -3,269 +3,113 @@
 {% block title %}SubasTAME{% endblock %}
 
 {% block content %}
-<section class="relative h-screen flex items-center justify-center overflow-hidden">
-  <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-black opacity-60"></div>
-    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Fondo de relojes de lujo" class="w-full h-full object-cover">
+<section class="hero-section">
+  <div class="hero-background">
+    <div class="hero-overlay"></div>
+    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Fondo de relojes de lujo" class="hero-image">
   </div>
-  
-  <div class="container mx-auto px-6 text-center relative z-10">
-    <h2 class="text-6xl font-bold mb-6 font-serif tracking-tight text-white">
-      <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Subastas</span> Exclusivas
+  <div class="hero-content">
+    <h2 class="hero-title">
+      <span class="hero-title-gradient">Subastas</span> Exclusivas
     </h2>
-    <p class="text-2xl mb-10 text-gray-300 max-w-3xl mx-auto leading-relaxed">
+    <p class="hero-subtitle">
       Adquiere piezas únicas en nuestra plataforma de subastas premium para coleccionistas exigentes.
     </p>
-    <div class="flex justify-center space-x-4">
-      <a href="#" class="bg-gradient-to-r from-amber-500 to-amber-600 text-white font-medium px-10 py-4 rounded-full hover:from-amber-600 hover:to-amber-700 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center group">
-        Explorar lotes
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-      <a href="#" class="border-2 border-amber-500 text-amber-400 font-medium px-10 py-4 rounded-full hover:bg-amber-500 hover:bg-opacity-10 transition-all transform hover:scale-105">
-        Conviértete en miembro
-      </a>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary">Explorar lotes</a>
+      <a href="{% url 'register' %}" class="btn-secondary">Conviértete en miembro</a>
     </div>
-    
     <!-- Contador de subastas activas -->
-    <div class="mt-16 bg-black bg-opacity-40 backdrop-blur-sm rounded-full py-3 px-6 inline-flex items-center">
-      <div class="w-3 h-3 bg-amber-400 rounded-full mr-2 animate-pulse"></div>
-      <span class="text-sm font-medium text-amber-100">32 subastas activas ahora</span>
+    <div class="auction-counter">
+      <div class="counter-pulse"></div>
+      <span class="counter-text">32 subastas activas ahora</span>
     </div>
   </div>
-  
   <!-- Flecha indicadora -->
-  <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+  <div class="scroll-indicator">
+    <svg class="scroll-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
     </svg>
   </div>
 </section>
 
 <!-- Productos en subasta -->
-<section class="container mx-auto px-6 py-24">
-  <div class="text-center mb-20">
-    <span class="text-amber-500 font-medium tracking-widest">COLECCIÓN PREMIUM</span>
-    <h3 class="text-4xl font-bold mt-4 font-serif text-gray-900">Lotes Destacados</h3>
-    <div class="w-24 h-1 bg-amber-500 mx-auto mt-6"></div>
+<section class="auction-section">
+  <div class="section-header">
+    <span class="section-badge">COLECCIÓN PREMIUM</span>
+    <h3 class="section-title">Lotes Destacados</h3>
+    <div class="section-divider"></div>
   </div>
-  
+
   <!-- Filtros -->
-  <div class="flex justify-center mb-16">
-    <div class="inline-flex rounded-full bg-gray-100 p-1 shadow-inner">
-      <button class="px-6 py-2 rounded-full bg-amber-500 text-white font-medium">Todos</button>
-      <button class="px-6 py-2 rounded-full text-gray-700 hover:bg-gray-200 font-medium transition">Relojes</button>
-      <button class="px-6 py-2 rounded-full text-gray-700 hover:bg-gray-200 font-medium transition">Joyas</button>
-      <button class="px-6 py-2 rounded-full text-gray-700 hover:bg-gray-200 font-medium transition">Arte</button>
-      <button class="px-6 py-2 rounded-full text-gray-700 hover:bg-gray-200 font-medium transition">Automóviles</button>
+  <div class="filters-container">
+    <div class="filters-wrapper">
+      <button class="filter-btn active">Todos</button>
+      <button class="filter-btn">Relojes</button>
+      <button class="filter-btn">Joyas</button>
+      <button class="filter-btn">Arte</button>
+      <button class="filter-btn">Automóviles</button>
     </div>
   </div>
-  
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-    
-    <!-- Tarjeta de producto 1 -->
-    <div class="group relative bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl">
-      <div class="relative overflow-hidden h-80">
-        <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Reloj de lujo" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-        
+
+  <div class="products-grid">
+    <!-- Tarjeta de producto -->
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Reloj de lujo" class="product-image">
         <!-- Badge de subasta -->
-        <div class="absolute top-5 right-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
+        <div class="auction-badge">
           SUBASTA ACTIVA
         </div>
-        
         <!-- Contador regresivo -->
-        <div class="absolute bottom-5 left-5 bg-black bg-opacity-70 text-white text-xs font-medium px-3 py-1 rounded-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <div class="countdown-timer">
+          <svg class="timer-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
           2d 12h 45m
         </div>
       </div>
-      
-      <div class="p-6">
-        <div class="flex justify-between items-start mb-2">
-          <h4 class="text-xl font-semibold text-gray-900 font-serif group-hover:text-amber-600 transition">Rolex Daytona 2023</h4>
-          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Relojería</span>
+      <!-- Detalles producto -->
+      <div class="product-details">
+        <div class="product-header">
+          <h4 class="product-title">Rolex Daytona 2023</h4>
+          <span class="product-category">Relojería</span>
         </div>
-        
-        <p class="text-sm text-gray-500 mb-4">Edición limitada, número 12/50. Certificado de autenticidad incluido.</p>
-        
-        <div class="flex justify-between items-center">
-          <div>
-            <p class="text-xs text-gray-400">Puja actual</p>
-            <p class="text-2xl font-bold text-gray-900">$24,800</p>
+        <p class="product-description">Edición limitada, número 12/50. Certificado de autenticidad incluido.</p>
+        <div class="product-footer">
+          <div class="price-container">
+            <p class="price-label">Puja actual</p>
+            <p class="price-value">$24,800</p>
           </div>
-          <a href="#" class="bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-6 py-3 rounded-full transition-all flex items-center group">
-            Pujar
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
+          <a href="#" class="bid-btn">Pujar</a>
         </div>
       </div>
-      
-      <!-- Efecto hover overlay -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-    </div>
-    
-    <!-- Tarjeta de producto 2 -->
-    <div class="group relative bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl">
-      <div class="relative overflow-hidden h-80">
-        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Automóvil clásico" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-        
-        <div class="absolute top-5 right-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
-          SUBASTA ACTIVA
-        </div>
-        
-        <div class="absolute bottom-5 left-5 bg-black bg-opacity-70 text-white text-xs font-medium px-3 py-1 rounded-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          1d 6h 22m
-        </div>
-      </div>
-      
-      <div class="p-6">
-        <div class="flex justify-between items-start mb-2">
-          <h4 class="text-xl font-semibold text-gray-900 font-serif group-hover:text-amber-600 transition">Ferrari 250 GT 1962</h4>
-          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Automóviles</span>
-        </div>
-        
-        <p class="text-sm text-gray-500 mb-4">Clásico restaurado, único dueño anterior. Documentación completa.</p>
-        
-        <div class="flex justify-between items-center">
-          <div>
-            <p class="text-xs text-gray-400">Puja actual</p>
-            <p class="text-2xl font-bold text-gray-900">$1,240,000</p>
-          </div>
-          <a href="#" class="bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-6 py-3 rounded-full transition-all flex items-center group">
-            Pujar
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
-        </div>
-      </div>
-      
-      <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-    </div>
-    
-    <!-- Tarjeta de producto 3 -->
-    <div class="group relative bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl">
-      <div class="relative overflow-hidden h-80">
-        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pintura de arte" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-        
-        <div class="absolute top-5 right-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
-          SUBASTA ACTIVA
-        </div>
-        
-        <div class="absolute bottom-5 left-5 bg-black bg-opacity-70 text-white text-xs font-medium px-3 py-1 rounded-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          4d 3h 15m
-        </div>
-      </div>
-      
-      <div class="p-6">
-        <div class="flex justify-between items-start mb-2">
-          <h4 class="text-xl font-semibold text-gray-900 font-serif group-hover:text-amber-600 transition">"Atardecer en Venecia"</h4>
-          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Arte</span>
-        </div>
-        
-        <p class="text-sm text-gray-500 mb-4">Óleo sobre lienzo de Giovanni Bellini, 1480. Certificado de autenticidad.</p>
-        
-        <div class="flex justify-between items-center">
-          <div>
-            <p class="text-xs text-gray-400">Puja actual</p>
-            <p class="text-2xl font-bold text-gray-900">$3,750,000</p>
-          </div>
-          <a href="#" class="bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-6 py-3 rounded-full transition-all flex items-center group">
-            Pujar
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
-        </div>
-      </div>
-      
-      <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-    </div>
-    
-    <!-- Tarjeta de producto 4 -->
-    <div class="group relative bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl">
-      <div class="relative overflow-hidden h-80">
-        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Collar de diamantes" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-        
-        <div class="absolute top-5 right-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
-          SUBASTA ACTIVA
-        </div>
-        
-        <div class="absolute bottom-5 left-5 bg-black bg-opacity-70 text-white text-xs font-medium px-3 py-1 rounded-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          12h 38m
-        </div>
-      </div>
-      
-      <div class="p-6">
-        <div class="flex justify-between items-start mb-2">
-          <h4 class="text-xl font-semibold text-gray-900 font-serif group-hover:text-amber-600 transition">Collar de Diamantes</h4>
-          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Joyas</span>
-        </div>
-        
-        <p class="text-sm text-gray-500 mb-4">24 quilates, 5.2ct diamante central. Certificado GIA incluido.</p>
-        
-        <div class="flex justify-between items-center">
-          <div>
-            <p class="text-xs text-gray-400">Puja actual</p>
-            <p class="text-2xl font-bold text-gray-900">$185,000</p>
-          </div>
-          <a href="#" class="bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-6 py-3 rounded-full transition-all flex items-center group">
-            Pujar
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
-        </div>
-      </div>
-      
-      <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
     </div>
   </div>
-  
+
   <!-- Botón ver más -->
-  <div class="text-center mt-16">
-    <a href="#" class="inline-flex items-center text-amber-600 font-medium group">
+  <div class="view-more-container">
+    <a href="#" class="view-more-btn">
       Ver todos los lotes disponibles
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      <svg class="view-more-icon">
+        <path d="M14 5l7 7m0 0l-7 7m7-7H3" />
       </svg>
     </a>
   </div>
 </section>
 
 <!-- Sección de membresía exclusiva -->
-<section class="bg-gray-900 text-white py-24">
-  <div class="container mx-auto px-6">
-    <div class="max-w-4xl mx-auto text-center">
-      <span class="text-amber-400 font-medium tracking-widest">MEMBRESÍA EXCLUSIVA</span>
-      <h3 class="text-4xl font-bold mt-6 font-serif">Acceso Prioritario a Subastas Privadas</h3>
-      <p class="text-xl text-gray-300 mt-6 leading-relaxed">
-        Conviértete en miembro premium y obtén acceso anticipado a nuestras subastas más exclusivas, 
-        asistencia personalizada de expertos y beneficios VIP.
-      </p>
-      <div class="mt-10">
-        <a href="#" class="bg-gradient-to-r from-amber-500 to-amber-600 text-white font-medium px-12 py-4 rounded-full hover:from-amber-600 hover:to-amber-700 transition-all transform hover:scale-105 shadow-lg inline-flex items-center group">
-          Solicitar invitación
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
-      </div>
+<section class="membership-section">
+  <div class="membership-content">
+    <span class="membership-badge">MEMBRESÍA EXCLUSIVA</span>
+    <h3 class="membership-title">Acceso Prioritario a Subastas Privadas</h3>
+    <p class="membership-text">
+      Conviértete en miembro premium y obtén acceso anticipado a nuestras subastas más exclusivas,
+      asistencia personalizada de expertos y beneficios VIP.
+    </p>
+    <div class="membership-btn-container">
+      <a href="#" class="membership-btn">Solicitar invitación</a>
     </div>
   </div>
 </section>
-{% endblock %} 
+{% endblock %}
