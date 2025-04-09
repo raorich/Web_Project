@@ -6,6 +6,7 @@
     <title>{% block title %}SubasTAME{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static './css/main.css' %}">
+    <script src="{% static './js/filters.js' %}"></script>
 </head>
 <body>
     <header class="header-base">
@@ -17,9 +18,9 @@
                 <span class="ml-3 text-xl">SubasTAME</span>
             </a>
             <nav class="header-nav">
-                <a class="header-nav-a">Home</a>
-                <a class="header-nav-a">Subastas</a>
-                <a class="header-nav-a">Contact Us</a>
+                <a href="{% url 'home' %}" class="header-nav-a">Home</a>
+                <a href="#" class="header-nav-a">Subastas</a>
+                <a href="#" class="header-nav-a">Contact Us</a>
             </nav>
             {% if user.is_authenticated %}
             <a href="{% url 'logout' %}" class="account-buttons">Logout</a>
