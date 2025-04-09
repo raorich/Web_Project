@@ -3,12 +3,10 @@ import time
 
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException as selTimeout
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -68,10 +66,7 @@ class WebScrapperSelenium():
         else:
             options.add_argument('window-size=1200x600')  
         options.add_argument('--no-sandbox')
-        self.driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager().install()),
-            options=options
-        )
+        self.driver = webdriver.Chrome(options=options)
         self.timeout = timeout
         self.element_name = element_name
         self.locator = locator
