@@ -1,5 +1,6 @@
 import json
 import sys
+import time
 
 from pprint import pprint
 from urllib.parse import urljoin
@@ -29,11 +30,18 @@ for div in divs:
 final_data = []
 for category, url in urls_to_check.items():
     category_soup = WebScrapperSelenium(url, element_name =  CLASS_COOKIES, locator = LOCATOR).get_soup()
+    if category_soup is None:
+        time.sleep(5)
+        continue
+
     watches_soup = category_soup.find_all("div", "js-article-item-container")[:20]
+    
     for watch in watches_soup:
         inside_watch_url = watch.find("a").get('href','')
         watch_soup = WebScrapperSelenium(urljoin(BASE_URL, inside_watch_url), element_name =  CLASS_COOKIES, locator = LOCATOR).get_soup()
-
+        if watch_soup is None:
+            time.sleep(5)
+            continue
         ####### HEADER & SUBHEADER #######
         headers = watch_soup.find("h1").find_all('span')
         headers[1].extract()
@@ -54,7 +62,7 @@ for category, url in urls_to_check.items():
         ####### IMGS #######
 
         image_div = watch_soup.find_all("div", class_="watch-image-carousel-image")
-        images_url = [WebScrapper.normalizeGetText(ima.get('data-zoom-image')) for ima in image_div]
+        images_url = [WebScrapper.normalizeGetText(ima.get('data-zoom-image','')) for ima in image_div]
 
         ##################################
 
