@@ -3,20 +3,19 @@ from django.contrib.auth.models import User, Group
 
 # Our data base model
 class Store(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank = False)
     users = models.ManyToManyField(User, related_name='stores')
 
     def __str__(self):
         return self.name
 
 class Product(models.Model):
-    name = models.CharField(max_length=255, default='')
-    subname = models.CharField(max_length=255, default='')
-    category = models.CharField(max_length=100) # art, automobiles, watch
+    name = models.CharField(max_length=255, blank = False)
+    category = models.CharField(max_length=100, blank = False) # art, automobiles, watch
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     reserve_price = models.DecimalField(max_digits=10, decimal_places=2)
     auction_end_time = models.DateTimeField()
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='products')
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='products', default=1)
 
     def __str__(self):
         return self.name
@@ -30,22 +29,22 @@ class AcquisitionHistory(models.Model):
         return f'{self.user.username} - {self.product.name} on {self.date}'
 
 class Watch(Product):
-    brand = models.CharField(max_length=100)
-    documentation = models.CharField(max_length=255)
-    case = models.CharField(max_length=255)
-    model = models.CharField(max_length=100)
-    condition = models.CharField(max_length=100)
-    year = models.PositiveIntegerField()
+    brand = models.CharField(max_length=100, default='')
+    documentation = models.CharField(max_length=255, default='')
+    case = models.CharField(max_length=255, default = '')
+    model = models.CharField(max_length=100, default = '')
+    condition = models.CharField(max_length=100, default = '')
+    year = models.CharField(max_length=100, default = '')
     images = models.JSONField(default=list, blank=True)
     #Falta la gestion de las imagenes, demomento seran urls
 
 class Art(Product):
-    artist = models.CharField(max_length=100)
+    artist = models.CharField(max_length=100, default = '')
     year = models.IntegerField()
 
-class Automobiles(Product):
-    make = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
+class Automobile(Product):
+    make = models.CharField(max_length=100, default = '')
+    model = models.CharField(max_length=100, default = '')
 
 class SalesHistory(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='sales_history')
