@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group
 
 # Our data base model
 class Store(models.Model):
-    name = models.CharField(max_length=255, blank = False)
+    name = models.CharField(max_length=255, blank = False, unique = True)
     users = models.ManyToManyField(User, related_name='stores')
 
     def __str__(self):
