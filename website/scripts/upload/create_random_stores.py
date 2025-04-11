@@ -3,6 +3,8 @@ from website.models import UserExtended, Store
 import random
 import requests
 
+# run with python3 manage.py shell < ./website/scripts/upload/create_random_stores.py
+
 response = requests.get("https://raw.githubusercontent.com/dariusk/corpora/refs/heads/master/data/corporations/fortune500.json")
 companies = response.json().get('companies',[])
 
