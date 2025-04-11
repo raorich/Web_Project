@@ -18,25 +18,25 @@
                 <div class="form-group">
                     <label for="username">Username</label>
                     <div class="mt-1">
-                        <input class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" type="text" id="username" name="username" required>
+                        {% include "components/input_element.html" with type="text" id="username" name="username" %}
                     </div>
                 </div>
                 <div class="form-group mt-6">
                     <label for="username">Email</label>
                     <div class="mt-1">
-                        <input class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" type="email" id="email" name="email" required>
+                        {% include "components/input_element.html" with type="email" id="email" name="email" %}
                     </div>
                 </div>
                 <div class="form-group mt-6">
                     <label for="username">Password</label>
                     <div class="mt-1">
-                        <input class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" type="password" id="password1" name="password1" required">
+                        {% include "components/input_element.html" with type="password" id="password2" name="password1" %}
                     </div>
                 </div>
                 <div class="form-group mt-6">
                     <label for="username">Confirm Password</label>
                     <div class="mt-1">
-                        <input class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" type="password" id="password2" name="password2" required>
+                        {% include "components/input_element.html" with type="password" id="password2" name="password2" %}
                     </div>
                 </div>
                 {% if form.errors %}
@@ -53,10 +53,12 @@
                 {% endif %}
                 <div class="mt-6">
                     <span class="block w-full rounded-md">
-                        <p class="form-link mb-4">Already have an account? <a class="font-medium text-gray-900 hover:text-amber-600 focus:outline-none focus:underline transition duration-150 ease-in-out" href="{% url 'login' %}">Login here</a></p>
-                        <button type="submit" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent bg-gray-900 hover:bg-amber-600 focus:outline-none transition duration-150 ease-in-out">
-                        Register
-                        </button>
+
+                        <p class="form-link mb-4">Already have an account?
+                            {% url 'login' as login_url %}
+                            {% include "components/button_a_link.html" with link=login_url text="Login here" %}
+                        </p>
+                        {% include "components/submit_button.html" with text="Register" %}
                     </span>
                 </div>
             </form>
