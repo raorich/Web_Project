@@ -4,10 +4,10 @@
 
 {% block content %}
 <div class="login-container">
-    <div class="centered-login">
-      <div class="inputs">
+    <div class="flex-1 flex flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      <div class="w-full max-w-sm mx-auto">
         <div>
-          <h2 class="title">
+          <h2 class="mt-6 text-3xl font-extrabold leading-9 text-gray-900">
             Register account
           </h2>
         </div>
@@ -17,26 +17,26 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <div class="input-container">
-                        <input type="text" id="username" name="username" required>
+                    <div class="mt-1">
+                        <input class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" type="text" id="username" name="username" required>
                     </div>
                 </div>
                 <div class="form-group mt-6">
                     <label for="username">Email</label>
-                    <div class="input-container">
-                        <input type="email" id="email" name="email" required>
+                    <div class="mt-1">
+                        <input class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" type="email" id="email" name="email" required>
                     </div>
                 </div>
                 <div class="form-group mt-6">
                     <label for="username">Password</label>
-                    <div class="input-container">
-                        <input type="password" id="password1" name="password1" required">
+                    <div class="mt-1">
+                        <input class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" type="password" id="password1" name="password1" required">
                     </div>
                 </div>
                 <div class="form-group mt-6">
                     <label for="username">Confirm Password</label>
-                    <div class="input-container">
-                        <input type="password" id="password2" name="password2" required>
+                    <div class="mt-1">
+                        <input class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 appearance-none focus:outline-none focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" type="password" id="password2" name="password2" required>
                     </div>
                 </div>
                 {% if form.errors %}
@@ -52,9 +52,9 @@
                     </div>
                 {% endif %}
                 <div class="mt-6">
-                    <span>
-                        <p class="form-link mb-4">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-                        <button type="submit" class="submit-button">
+                    <span class="block w-full rounded-md">
+                        <p class="form-link mb-4">Already have an account? <a class="font-medium text-gray-900 hover:text-amber-600 focus:outline-none focus:underline transition duration-150 ease-in-out" href="{% url 'login' %}">Login here</a></p>
+                        <button type="submit" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent bg-gray-900 hover:bg-amber-600 focus:outline-none transition duration-150 ease-in-out">
                         Register
                         </button>
                     </span>

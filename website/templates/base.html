@@ -9,24 +9,24 @@
     <script src="{% static './js/filters.js' %}"></script>
 </head>
 <body>
-    <header class="header-base">
-        <div class="header-div">
-            <a class="header-a" href="{% url 'home' %}">
+    <header class="text-gray-700 border-b border-gray-200 bg-white fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto flex flex-wrap flex-col md:flex-row items-center p-5">
+            <a class="flex items-center font-medium text-gray-900 mb-4 md:mb-0" href="{% url 'home' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-gray-900 rounded-full" viewBox="0 0 24 24">
                     <path d="M12 3l8 9-8 9-8-9z"></path>
                 </svg>
                 <span class="ml-3 text-xl">SubasTAME</span>
             </a>
-            <nav class="header-nav">
-                <a href="{% url 'home' %}" class="header-nav-a">Home</a>
-                <a href="#" class="header-nav-a">Subastas</a>
-                <a href="#" class="header-nav-a">Contact Us</a>
+            <nav class="flex flex-wrap items-center justify-center text-base md:ml-auto">
+                <a href="{% url 'home' %}" class="mr-5 hover:text-gray-900">Home</a>
+                <a href="#" class="mr-5 hover:text-gray-900">Subastas</a>
+                <a href="#" class="mr-5 hover:text-gray-900">Contact Us</a>
             </nav>
             {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="account-buttons">Logout</a>
+            <a href="{% url 'logout' %}" class="bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-3 py-2 rounded-xl transition-all flex items-center">Logout</a>
             {% else %}
-            <a href="{% url 'login' %}" class="account-buttons mr-5">Login</a>
-            <a href="{% url 'register' %}" class="account-buttons">Register</a>
+            <a href="{% url 'login' %}" class="bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-3 py-2 rounded-xl transition-all flex items-center mr-5">Login</a>
+            <a href="{% url 'register' %}" class="bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-3 py-2 rounded-xl transition-all flex items-center">Register</a>
             {% endif %}
         </div>
     </header>
