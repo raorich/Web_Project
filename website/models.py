@@ -11,11 +11,14 @@ class Store(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255, blank = False)
+    description = models.CharField(max_length=255, blank = False)
     category = models.CharField(max_length=100, blank = False) # art, automobiles, watch
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     reserve_price = models.DecimalField(max_digits=10, decimal_places=2)
     auction_end_time = models.DateTimeField()
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='products', default=1)
+    images = models.JSONField(default=list, blank=True)
+
 
     def __str__(self):
         return self.name
@@ -35,8 +38,6 @@ class Watch(Product):
     model = models.CharField(max_length=100, default = '')
     condition = models.CharField(max_length=100, default = '')
     year = models.CharField(max_length=100, default = '')
-    images = models.JSONField(default=list, blank=True)
-    #Falta la gestion de las imagenes, demomento seran urls
 
 class Art(Product):
     artist = models.CharField(max_length=100, default = '')

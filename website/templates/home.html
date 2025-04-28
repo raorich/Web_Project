@@ -55,7 +55,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
     <!-- Tarjeta de producto -->
     {% for product in products %}
-        {% include "components/product_card.html"  with src=product.watch.images.0 alt=product.name end_time=product.auction_end_time name=product.name category=product.category description=product.watch.documentation actual_price=product.starting_price %}   
+        {% include "components/product_card.html"  with src=product.images.0 alt=product.name end_time=product.auction_end_time name=product.name category=product.category description=product.description actual_price=product.starting_price %}   
     {% empty %}
         No hay productos disponibles
     {% endfor %}

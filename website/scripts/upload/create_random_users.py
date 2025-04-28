@@ -23,6 +23,8 @@ for _ in range(100):
         first_name=results['name']['first'],
         last_name=results['name']['last']
     )
+    
+    print(user.username)
 
     UserExtended.objects.get_or_create(
         user=user,

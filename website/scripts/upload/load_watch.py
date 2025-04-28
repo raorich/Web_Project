@@ -33,20 +33,29 @@ with open(csv_file_path, mode='r', encoding='utf-8') as file:
             break
         
         store_selected = random.randint(1,max_store-1)
+        price = float(row["Price"].strip().replace(" ",""))
+
+        doc = row['Documentation'].strip()
+        brand = row['Brand'].strip()
+        model = row['Model'].strip()
+        case = row['Case'].strip()
+        condition = row['Condition'].strip()
+
         Watch.objects.get_or_create(
             ############### Product ##############
             name = row["Header"].strip(),
+            description = " | ".join([brand,model,condition]),
             category = "watch",
-            starting_price = float(row["Price"].strip().replace(" ","")) * (1 - random.randint(5,30)/100),
-            reserve_price = float(row["Price"].strip().replace(" ","")),
+            starting_price = price * (1 - random.randint(5,30)/100),
+            reserve_price = price,
             auction_end_time = datetime.now().date() + relativedelta(days=random.randint(5,30)), # Reactivar en un altre script afeguint dies
             store = Store.objects.get(pk=store_selected),
+            images=images,
             ############### Watch ###############
-            brand=row['Brand'].strip(),
-            documentation=row['Documentation'].strip(),
-            case=row['Case'].strip(),
-            model=row['Model'].strip(),
-            condition=row['Condition'].strip(),
-            year=row['Year'].strip(),
-            images=images
+            brand=brand,
+            documentation=doc,
+            case=case,
+            model=model,
+            condition=condition,
+            year=row['Year'].strip()
         )
