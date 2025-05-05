@@ -45,11 +45,19 @@ class Watch(Product):
 
 class Art(Product):
     artist = models.CharField(max_length=100, default = '')
+    technique = models.CharField(max_length=100, default = '')
+    country = models.CharField(max_length=100, default = '')
+    dimensions = models.CharField(max_length=100, default = '')
     year = models.IntegerField()
 
 class Automobile(Product):
     make = models.CharField(max_length=100, default = '')
     model = models.CharField(max_length=100, default = '')
+    restoration = models.CharField(max_length=100, default = '')
+    transmission = models.CharField(max_length=100, default = '')
+    exterior_color = models.CharField(max_length=100, default = '')
+    engine_condition = models.CharField(max_length=100, default = '')
+    year = models.CharField(max_length=100, default = '')
 
 class SalesHistory(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='sales_history')
