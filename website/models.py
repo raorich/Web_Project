@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
+from django.urls import reverse
 
 # Our data base model
 class Store(models.Model):
@@ -22,6 +23,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('product_detail', args=[str(self.id)])
 
 class AcquisitionHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='acquisition_history')

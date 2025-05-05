@@ -42,11 +42,21 @@
   </div>
 
   <!-- Filtros -->
-  <div class="flex justify-center mb-16">
+  <div class="flex flex-col items-center mb-16 space-y-8">
+    <!-- Buscador -->
+    <div class="relative w-full max-w-lg mb-10">
+      <!-- Campo de búsqueda -->
+      <input type="text" id="search-input" class="px-12 py-3 border rounded-full w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+             placeholder="Escribe algo aquí...">
+  
+      <!-- Icono de lupa dentro del campo de búsqueda -->
+      <button id="search-button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-amber-500">
+        <i class="fas fa-search"></i> <!-- Asegúrate de tener FontAwesome o el icono correspondiente -->
+      </button>
+    </div>
     <div class="inline-flex rounded-full bg-gray-100 p-1 shadow-inner">
       <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition bg-amber-500">Todos</button>
       <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Relojes</button>
-      <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Joyas</button>
       <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Arte</button>
       <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Automóviles</button>
     </div>
@@ -55,7 +65,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
     <!-- Tarjeta de producto -->
     {% for product in products %}
-        {% include "components/product_card.html"  with src=product.images.0 alt=product.name end_time=product.auction_end_time name=product.name category=product.category description=product.description actual_price=product.starting_price %}   
+      {% include "components/product_card.html" with src=product.images.0 alt=product.name end_time=product.auction_end_time name=product.name category=product.category description=product.description actual_price=product.starting_price product_link=product.get_absolute_url %}
     {% empty %}
         No hay productos disponibles
     {% endfor %}

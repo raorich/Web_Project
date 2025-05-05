@@ -1,0 +1,5 @@
+{% for product in products %}
+  {% include "components/product_card.html" with src=product.images.0 alt=product.name end_time=product.auction_end_time name=product.name category=product.category description=product.description actual_price=product.starting_price product_link=product.get_absolute_url %}
+{% empty %}
+  <p class="col-span-full text-center text-gray-500">No se encontraron productos.</p>
+{% endfor %}

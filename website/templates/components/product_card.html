@@ -1,5 +1,6 @@
 {% load price_filters %}
-<div class="relative bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500">
+<a href="{{ product_link }}" class="block hover:scale-105 transition-transform duration-300">
+  <div class="relative bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 h-full">
     <div class="relative overflow-hidden h-80">
       <img src="{{ src }}" alt="{{ alt }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
       <!-- Badge de subasta -->
@@ -26,8 +27,8 @@
           <p class="text-xs text-gray-400">Puja actual</p>
           <p class="text-2xl font-bold text-gray-900">{{ actual_price|clean_price }}€</p>
         </div>
-        <a href="{{ product_link }}" class="bg-gray-900 hover:bg-amber-600 text-white text-sm font-medium px-6 py-3 rounded-full transition-all flex items-center">Pujar</a>
+        <span class="bg-gray-900 text-white text-sm font-medium px-6 py-3 rounded-full transition-all flex items-center">Pujar</span>
       </div>
     </div>
-</div>
-
+  </div>
+</a>

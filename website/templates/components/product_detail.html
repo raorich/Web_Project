@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto p-6">
+  <div class="bg-white shadow-xl rounded-2xl p-8 grid md:grid-cols-2 gap-8">
+
+    <!-- Galería de imágenes -->
+    <div>
+      {% if product.images %}
+        <img src="{{ product.images.0 }}" class="w-full h-80 object-cover rounded-xl mb-4" alt="{{ product.name }}">
+        <div class="flex space-x-2 overflow-x-auto">
+          {% for image in product.images|slice:"1:" %}
+            <img src="{{ image }}" class="w-20 h-20 object-cover rounded-lg border hover:scale-105 transition" alt="Imagen adicional">
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Información del producto -->
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ product.name }}</h1>
+      <p class="text-gray-600 mb-4">{{ product.description }}</p>
+
+      <div class="space-y-2 text-sm text-gray-700">
+        <p><strong>Precio inicial:</strong> {{ product.starting_price }} €</p>
+        <p><strong>Precio de reserva:</strong> {{ product.reserve_price }} €</p>
+        <p><strong>Finaliza el:</strong> {{ product.auction_end_time|date:"d M Y H:i" }}</p>
+        <p><strong>Tienda:</strong> {{ product.store.name }}</p>
+      </div>
+
+      <!-- Detalles específicos según tipo -->
+      {% if type == 'watch' %}
+      <div class="mt-6 pt-4 border-t space-y-2 text-sm text-gray-700">
+        <h2 class="font-semibold text-lg">Detalles del Reloj</h2>
+        <p><strong>Marca:</strong> {{ product.brand }}</p>
+        <p><strong>Modelo:</strong> {{ product.model }}</p>
+        <p><strong>Año:</strong> {{ product.year }}</p>
+        <p><strong>Estado:</strong> {{ product.condition }}</p>
+        <p><strong>Documentación:</strong> {{ product.documentation }}</p>
+        <p><strong>Caja:</strong> {{ product.case }}</p>
+      </div>
+      {% elif type == 'art' %}
+      <div class="mt-6 pt-4 border-t space-y-2 text-sm text-gray-700">
+        <h2 class="font-semibold text-lg">Detalles de la Obra de Arte</h2>
+        <p><strong>Artista:</strong> {{ product.artist }}</p>
+        <p><strong>Año:</strong> {{ product.year }}</p>
+      </div>
+      {% elif type == 'automobile' %}
+      <div class="mt-6 pt-4 border-t space-y-2 text-sm text-gray-700">
+        <h2 class="font-semibold text-lg">Detalles del Automóvil</h2>
+        <p><strong>Marca:</strong> {{ product.make }}</p>
+        <p><strong>Modelo:</strong> {{ product.model }}</p>
+      </div>
+      {% endif %}
+
+      <div class="mt-6">
+        <a href="#" class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-full transition">
+          Participar en subasta
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
