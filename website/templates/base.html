@@ -46,41 +46,41 @@
         {% endblock %}
     </main>
 
-    <footer>
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-6">
+        <!-- Sección superior del footer -->
+        <div class="flex flex-col md:flex-row justify-between items-end border-b border-gray-700 pb-8 mb-8">
+          
+          <!-- Información de la empresa -->
+          <div class="mb-6 md:mb-0">
+            <p class="mt-2 text-gray-300 w-full">
+              Subastas exclusivas en tiempo real para coleccionistas exigentes.
+            </p>
+          </div>
+          
+          <!-- Enlaces verticales -->
+          <div class="grid grid-cols-1 gap-2">
+            <a href="#contactanos" id="contactanos" class="text-gray-300 hover:text-white transition-colors">Contáctanos</a>
+            <a href="#politica"  id= "#politica"    class="text-gray-300 hover:text-white transition-colors">Política de Privacidad</a>
+            <a href="#terminos"  id= "#terminos"    class="text-gray-300 hover:text-white transition-colors">Términos y Condiciones</a>
+            <a href="#preguntas" id= "#preguntas"   class="text-gray-300 hover:text-white transition-colors">Preguntas Frecuentes</a>
+
+          </div>
+        </div>
+        
+        <!-- Sección inferior del footer -->
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <!-- Derechos de autor -->
+          <div class="text-sm text-gray-400 mb-4 md:mb-0">
+            © 2025 SubasTAME. Todos los derechos reservados.
+          </div>
+          
+          <!-- Nota legal (opcional) -->
+          <div class="text-xs text-gray-500 text-center">
+            Sistema de subastas certificado y automatizado
+          </div>
+        </div>
+      </div>
     </footer>
-    <script>
-        $(document).ready(function () {
-          // Al presionar Enter en el campo de búsqueda
-          $('#search-input').on('keypress', function (e) {
-            if (e.which === 13) {
-              e.preventDefault();
-              buscarProductos();
-            }
-          });
-      
-          // Botón de lupa
-          $('#search-button').on('click', function () {
-            buscarProductos();
-          });
-      
-          function buscarProductos() {
-            const query = $('#search-input').val();
-            $.ajax({
-              url: '/search-products/',
-              data: {
-                'q': query
-              },
-              dataType: 'json',
-              success: function (data) {
-                $('.grid').html(data.html);
-              },
-              error: function () {
-                alert('Hubo un error al buscar productos.');
-              }
-            });
-          }
-        });
-      </script>
-      
 </body>
 </html> 

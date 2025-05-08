@@ -20,8 +20,5 @@ from website.views import pages
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('website.urls')),
-    path('', pages.home, name='home'),
-    path('producto/<int:product_id>/', pages.product_detail, name='product_detail'),
-    path('pujar/<int:product_id>/', pages.pujar_producto, name='pujar_producto'),  # <-- Esta línea soluciona el error de pujar
+    path('', include('website.urls'))
 ]

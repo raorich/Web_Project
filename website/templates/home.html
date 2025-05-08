@@ -47,22 +47,24 @@
     <div class="relative w-full max-w-lg mb-10">
       <!-- Campo de búsqueda -->
       <input type="text" id="search-input" class="px-12 py-3 border rounded-full w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
-             placeholder="Escribe algo aquí...">
-  
-      <!-- Icono de lupa dentro del campo de búsqueda -->
+             placeholder="Escribe algo aquí..." value={{ current_query }}>
+      
+      <span class="absolute right-4 top-1/2 transform scale-130 -translate-y-1/2 text-amber-500" ><i class="fas fa-search"></i></span>
+      <!-- Icono de lupa dentro del campo de búsqueda 
       <button id="search-button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-amber-500">
-        <i class="fas fa-search"></i> <!-- Asegúrate de tener FontAwesome o el icono correspondiente -->
+        <i class="fas fa-search"></i> Asegúrate de tener FontAwesome o el icono correspondiente
       </button>
+      -->
     </div>
     <div class="inline-flex rounded-full bg-gray-100 p-1 shadow-inner">
-      <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition bg-amber-500">Todos</button>
-      <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Relojes</button>
-      <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Arte</button>
-      <button class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Automóviles</button>
+      <button data-filter="" class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition bg-amber-500">Todos</button>
+      <button data-filter="watch" class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Relojes</button>
+      <button data-filter="art" class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Arte</button>
+      <button data-filter="automobile" class="filter-btn px-6 py-2 rounded-full text-gray-700 hover:bg-amber-500 font-medium transition">Automóviles</button>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+  <div id='featured-products' class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
     <!-- Tarjeta de producto -->
     {% for product in products %}
       {% include "components/product_card.html" with src=product.images.0 alt=product.name end_time=product.auction_end_time name=product.name category=product.category description=product.description actual_price=product.starting_price product_link=product.get_absolute_url %}
@@ -98,38 +100,40 @@
   </div>
 </section>
 
-<footer class="bg-gray-900 text-white py-12">
-  <div class="container mx-auto px-6">
-    <!-- Sección superior del footer -->
-    <div class="flex flex-col md:flex-row justify-between items-end border-b border-gray-700 pb-8 mb-8">
-      <!-- Información de la empresa -->
-      <div class="mb-6 md:mb-0">
-        <p class="mt-2 text-gray-300 w-full">
-          Subastas exclusivas en tiempo real para coleccionistas exigentes.
-        </p>
-      </div>
-      
-      <!-- Enlaces verticales -->
-      <div class="grid grid-cols-1 gap-2">
-        <a href="#" class="text-gray-300 hover:text-white transition-colors">Contáctanos</a>
-        <a href="#" class="text-gray-300 hover:text-white transition-colors">Política de Privacidad</a>
-        <a href="#" class="text-gray-300 hover:text-white transition-colors">Términos y Condiciones</a>
-        <a href="#" class="text-gray-300 hover:text-white transition-colors">Preguntas Frecuentes</a>
-      </div>
-    </div>
-    
-    <!-- Sección inferior del footer -->
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <!-- Derechos de autor -->
-      <div class="text-sm text-gray-400 mb-4 md:mb-0">
-        © 2025 SubasTAME. Todos los derechos reservados.
-      </div>
-      
-      <!-- Nota legal (opcional) -->
-      <div class="text-xs text-gray-500 text-center">
-        Sistema de subastas certificado y automatizado
-      </div>
-    </div>
-  </div>
-</footer>
+<script>
+  $(document).ready(function () {
+    let selectedFilter = null;
+
+    $('#search-input').on('input', function () {
+      let valor = $(this).val();
+      buscarProductos(selectedFilter);
+    });
+
+    // Detecta el clic en los botones de filtro
+    $('.filter-btn').on('click', function () {
+      selectedFilter = $(this).data('filter');
+      buscarProductos(selectedFilter);
+    });
+
+    function buscarProductos(category) {
+      const query = $('#search-input').val();
+      $.ajax({
+        url: '/search-products/',
+        data: {
+          'q': query,
+          'category': category
+        },
+        dataType: 'json',
+        success: function (data) {
+          $('#featured-products').html(data.html);
+        },
+        error: function () {
+          alert('Hubo un error al buscar productos.');
+        }
+      });
+    }
+  });
+</script>
+
+
 {% endblock %}

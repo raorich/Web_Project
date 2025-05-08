@@ -4,7 +4,8 @@ from django.shortcuts import redirect
 from django.http import HttpResponse, JsonResponse
 
 from ..models import Product
-from .products_functions import get_random_features, get_quote
+from .products_functions import get_random_features
+from .other_functions import get_quote
 
 
 
@@ -35,17 +36,6 @@ def product_detail(request, product_id):
         'product': subproduct,
         'type': product_type  # ← Esto es lo que faltaba
     })
-
-def search_products(request):
-
-    q = request.GET.get('q', '')
-    products = Product.objects.filter(name__icontains=q)[:12]
-    html = render(request, 'components/product_cards_ajax.html', {'products': products}).content.decode('utf-8')
-    return JsonResponse({'html': html})
-
-def pujar_producto(request, product_id):
-
-    return HttpResponse(f"Has llegado a la página de puja del producto con ID {product_id}")
     
     
 
