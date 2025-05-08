@@ -1,13 +1,19 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import redirect
+<<<<<<< Updated upstream
 from ..models import Product
 from .products_functions import get_random_features
 from django.http import HttpResponse, JsonResponse
+=======
+
+from .products_functions import get_random_features, get_quote
+>>>>>>> Stashed changes
 
 
 def home(request):
     products = get_random_features(20)
+<<<<<<< Updated upstream
     from pprint import pprint
     pprint([product.name for product in products])
     return render(request, 'home.html', {"products": products})
@@ -42,3 +48,10 @@ def search_products(request):
 
 def pujar_producto(request, product_id):
     return HttpResponse(f"Has llegado a la página de puja del producto con ID {product_id}")
+=======
+    quote = get_quote()
+    return render(request, 'home.html', {"products": products, "quote": quote})
+    
+
+
+>>>>>>> Stashed changes

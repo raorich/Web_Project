@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from website.models import Product
 import random
+import requests
 
 def get_random_features(num_featureds=20):
     if num_featureds > 100: #Max limit
@@ -24,3 +25,15 @@ def get_random_features(num_featureds=20):
         num_featureds -= 1
 
     return products
+
+def get_quote():
+    quote = "No se pudo cargar la frase."
+    try:
+        response = requests.get("https://zenquotes.io/api/random")
+        if response.status_code == 200:
+            data = response.json()
+            quote = f'"{data[0]["q"]}" — {data[0]["a"]}'
+    except:
+        pass
+
+    return quote
