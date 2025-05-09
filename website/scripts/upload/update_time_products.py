@@ -14,3 +14,4 @@ for product in unupdated_products:
     print(f'{product.name} was updated')
     product.auction_end_time = datetime.now().date() + relativedelta(days=random.randint(5,30))
     product.save()
+    #incluir quitar el ganador de la puja anterior si es que tiene

@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Obtener valor del filtro
       const filterValue = this.textContent.trim();
-      console.log('Productos filtrados:', filterValue);
 
       /*
       // Lógica de filtrado (ejemplo con Fetch API)

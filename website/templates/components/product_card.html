@@ -4,8 +4,14 @@
     <div class="relative overflow-hidden h-80">
       <img src="{{ src }}" alt="{{ alt }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
       <!-- Badge de subasta -->
-      <div class="absolute top-5 right-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
-        SUBASTA ACTIVA
+      <div class="absolute top-5 right-5 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg 
+          {% if bid_status == 'INACTIVA' %}
+              bg-gradient-to-r from-blue-500 to-blue-600
+          {% else %}
+              bg-gradient-to-r from-amber-500 to-amber-600
+          {% endif %}
+      ">
+        SUBASTA {{ bid_status }}
       </div>
       <!-- Contador regresivo -->
       <div class="absolute inline-flex items-center bottom-5 left-5 bg-black text-white text-xs font-medium px-3 py-1 rounded-full mr-10">

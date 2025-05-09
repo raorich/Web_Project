@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.urls import reverse
+from django.utils.timezone import now
 
 # Our data base model
 class Store(models.Model):
@@ -20,12 +21,15 @@ class Product(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='products', default=1)
     images = models.JSONField(default=list, blank=True)
 
-
     def __str__(self):
         return self.name
     
     def get_absolute_url(self):
         return reverse('product_detail', args=[str(self.id)])
+
+    @property
+    def is_expired(self):
+        return self.auction_end_time < now()
 
 class AcquisitionHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='acquisition_history')

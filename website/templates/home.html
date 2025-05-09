@@ -60,20 +60,24 @@
   </div>
 
   <div id='featured-products' class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-    <!-- Tarjeta de producto -->
-    {% for product in products %}
-      {% include "components/product_card.html" with src=product.images.0 alt=product.name end_time=product.auction_end_time name=product.name category=product.category description=product.description actual_price=product.starting_price product_link=product.get_absolute_url %}
-    {% empty %}
-        No hay productos disponibles
-    {% endfor %}
+    {% include "components/product_cards_ajax.html" %}
   </div>
 
-  <!-- Botón ver más -->
-  <div class="text-center mt-16">
-    <a href="#" class="inline-flex items-center text-amber-600 font-medium">
-      Ver más
+  <div class="flex justify-center items-center gap-6 mt-16">
+
+    <!-- Botón página anterior -->
+    <a id="previous-page" href="#featured-products" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+      ← Página anterior
+    </a>
+  
+    <span id="current-page" class="text-gray-700 font-semibold">Página 1</span>
+  
+    <!-- Botón siguiente página -->
+    <a id="next-page" href="#featured-products" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+      Siguiente página →
     </a>
   </div>
+
 </section>
 
 <!-- Sección de membresía exclusiva -->
@@ -98,6 +102,8 @@
 <script>
   $(document).ready(function () {
     let selectedFilter = null;
+    let current_page = 1;
+    $('#previous-page').hide();
 
     $('#search-input').on('input', function () {
       let valor = $(this).val();
@@ -106,21 +112,50 @@
 
     // Detecta el clic en los botones de filtro
     $('.filter-btn').on('click', function () {
+      current_page = 1
       selectedFilter = $(this).data('filter');
       buscarProductos(selectedFilter);
     });
 
+    // Detecta si el usuario pasa de pagina
+    $('#next-page').on('click', function () {
+      current_page += 1;
+      buscarProductos(selectedFilter);
+    });
+
+    $('#previous-page').on('click', function () {
+      if (current_page > 1) {
+        current_page -= 1;
+        buscarProductos(selectedFilter);
+      }
+    });
+
     function buscarProductos(category) {
       const query = $('#search-input').val();
+      $('#current-page').text(`Página ${current_page}`);
       $.ajax({
         url: '/search-products/',
         data: {
           'q': query,
-          'category': category
+          'category': category,
+          'page': current_page
         },
         dataType: 'json',
         success: function (data) {
           $('#featured-products').html(data.html);
+          console.log(data.total_pages)
+          //Mira el numero maximo de paginas y esconde los botones
+          if (current_page >= data.total_pages) {
+            $('#next-page').hide();
+          } else {
+            $('#next-page').show();
+          }
+
+          if (current_page <= 1) {
+            $('#previous-page').hide();
+          } else {
+            $('#previous-page').show();
+          }
         },
         error: function () {
           alert('Hubo un error al buscar productos.');

@@ -4,14 +4,15 @@ from django.shortcuts import redirect
 from django.http import HttpResponse, JsonResponse
 
 from ..models import Product
-from .products_functions import get_random_features
+from .products_functions import get_products_by_auction_end_time, paginate_products
 from .other_functions import get_quote
 
 
 
 
 def home(request):
-    products = get_random_features(20)
+    products = get_products_by_auction_end_time()
+    products, _ = paginate_products(products, num_featureds=20, page=1)
     quote = get_quote()
     return render(request, 'home.html', {"products": products, "quote": quote})
 
