@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 # Routes that can we access in our websites
 
 urlpatterns = [
@@ -11,5 +12,6 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('producto/<int:product_id>/', views.product_detail, name='product_detail'),
     path('search-products/', views.search_products, name='search_products'),
+    path('perfil/', views.perfil_usuario, name='perfil'),
 
 ] 

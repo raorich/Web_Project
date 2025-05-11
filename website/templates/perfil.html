@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-5xl">
+    <!-- Encabezado principal -->
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-900">SubastAME</h1>
+        <div class="w-24 h-1 bg-amber-500 mx-auto mt-3"></div>
+    </div>
+
+    <!-- Contenedor principal con sombra y bordes redondeados -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <!-- Grid de 2 columnas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 divide-x divide-gray-100">
+            <!-- Columna izquierda -->
+            <div class="p-8">
+                <!-- Datos Personales -->
+                <div class="mb-10">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Datos Personales</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wider">Nombre de usuario</p>
+                            <p class="text-lg font-medium text-gray-900">bola</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase tracking-wider">Email</p>
+                            <p class="text-lg font-medium text-gray-900">cactusa@example.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seguridad -->
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Seguridad</h2>
+                    <form class="space-y-5">
+                        <div>
+                            <label class="block text-sm text-gray-500 uppercase tracking-wider mb-2">Cambiar contraseña</label>
+                            <input type="password" placeholder="Nueva contraseña" 
+                                   class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <input type="password" placeholder="Confirmar contraseña" 
+                                   class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                        </div>
+                        <button type="submit" 
+                                class="w-full bg-gray-900 hover:bg-amber-600 text-white py-3 rounded-lg transition-colors duration-300">
+                            Actualizar contraseña
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="p-8">
+                <!-- Mis Pujas -->
+                <div class="mb-10">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Mis Pujas</h2>
+                    <p class="text-gray-500 text-center py-4">No hay pujas activas actualmente</p>
+                    <div class="text-center">
+                        <a href="#" class="inline-block text-amber-600 hover:text-amber-700 font-medium">Ver todas →</a>
+                    </div>
+                </div>
+
+                <!-- Historial -->
+                <div class="mb-10">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Historial de Adquisiciones</h2>
+                    <p class="text-gray-500 text-center py-4">No hay historial disponible</p>
+                </div>
+
+                <!-- Mis Tiendas -->
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Mis Tiendas</h2>
+                    <p class="text-gray-500 text-center py-4">No tienes tiendas registradas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

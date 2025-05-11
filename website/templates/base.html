@@ -32,11 +32,14 @@
             {% url 'login' as login_url %}
             {% url 'register' as register_url %}
             {% if user.is_authenticated %}
-                {% include "components/account_button.html" with link=logout_url text="Logout" %}
+              <!-- Botón de Perfil (para cualquier usuario logueado) -->
+              {% include "components/account_button.html" with link="/perfil/" text="Mi Perfil" class="mr-3" %}
+              <!-- Botón de Logout -->
+              {% include "components/account_button.html" with link=logout_url text="Logout" %}
             {% else %}
-                {% url 'login' as login_url %}
-                {% include "components/account_button.html" with link=login_url text="Login" id="login-btn" %}
-                {% include "components/account_button.html" with link=register_url text="Register" %}
+              <!-- Botones para invitados -->
+              {% include "components/account_button.html" with link=login_url text="Login" id="login-btn" %}
+              {% include "components/account_button.html" with link=register_url text="Register" %}
             {% endif %}
         </div>
     </header>
