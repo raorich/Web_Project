@@ -56,7 +56,7 @@ def get_products_by_auction_end_time(category=None):
     
     products = list(active_products) + list(expired_products)
 
-    return products
+    return products, active_products
 
 #Programación dinamica para las busquedas por ajax
 def levenshtein(s1, s2):

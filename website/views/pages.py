@@ -10,9 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 def home(request):
-    products = get_products_by_auction_end_time()
+    products, active_products = get_products_by_auction_end_time()
     products, _ = paginate_objects(products, num_featureds=20, page=1)
-    return render(request, 'home.html', {"products": products})
+    return render(request, 'home.html', {"products": products, "active_products": len(active_products)})
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
