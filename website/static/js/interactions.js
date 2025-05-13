@@ -11,17 +11,5 @@ document.addEventListener('DOMContentLoaded', function () {
       // Añadir clases al botón clickeado
       this.classList.add('bg-amber-500');
     });
-  });    
-  if (window.location.pathname === '/perfil/') {
-    document.getElementById('open-form').addEventListener('click', function(event) {
-      event.preventDefault();
-      document.getElementById('form-modal').style.display = 'block';
-      document.getElementById('overlay').style.display = 'block';
-    });
-  
-    document.getElementById('close-form').addEventListener('click', function() {
-        document.getElementById('form-modal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    });
-  }
+  });
 });

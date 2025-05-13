@@ -1,0 +1,82 @@
+{% if bids %}
+<div class="overflow-x-auto">
+    <table class="min-w-full table-auto bg-white border border-gray-200 rounded-lg">
+        <thead class="bg-gray-100 text-gray-700">
+          <tr>
+            <th class="py-3 px-6 text-left border-r-1 border-gray-200">Producto</th>
+            <th class="py-3 px-6 text-left">Puja</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for bid in bids %}
+              <tr class="border-t border-gray-200">
+                <td class="py-2 px-6 border-r-1 border-gray-200">{{ bid.product }}</td>
+                <td class="py-2 px-6">{{ bid.bid_amount }}€</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="flex justify-center items-center gap-6 mt-3">
+    <!-- Botón página anterior -->
+    <a id="previous-page-bids" href="#profile-bids" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+        ← Página anterior
+    </a>
+    <span id="current-page-bids" class="text-gray-700 font-semibold">Página 1</span>
+    <!-- Botón siguiente página -->
+    <a id="next-page-bids" href="#profile-bids" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+        Siguiente página →
+    </a>
+</div>
+{% else %}
+    <p class="text-gray-500 text-center py-4">No hay pujas activas actualmente</p>
+{% endif %}
+
+<script>
+$(document).ready(function () {
+    let selectedFilter = null;
+    let current_page = 1;
+    buscarProductos();
+    $('#previous-page-bids').hide();
+
+    // Detecta si el usuario pasa de pagina
+    $('#next-page-bids').on('click', function () {
+      current_page += 1;
+      buscarProductos();
+    });
+
+    $('#previous-page-bids').on('click', function () {
+      if (current_page > 1) {
+        current_page -= 1;
+        buscarProductos();
+      }
+    });
+
+    function buscarProductos() {
+      $('#current-page-bids').text(`Página ${current_page}`);
+      $.ajax({
+        url: '/profile-bids/',
+        data: {
+          'page': current_page
+        },
+        dataType: 'json',
+        success: function (data) {
+          $('#profile-bids').html(data.html);
+          console.log(data.total_pages)
+          //Mira el numero maximo de paginas y esconde los botones
+          if (current_page >= data.total_pages) {
+            $('#next-page-bids').hide();
+          } else {
+            $('#next-page-bids').show();
+          }
+
+          if (current_page <= 1) {
+            $('#previous-page-bids').hide();
+          } else {
+            $('#previous-page-bids').show();
+          }
+        }
+      });
+    }
+  });
+</script>

@@ -21,7 +21,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- Columna derecha -->
+            <div class="p-8">
                 <!-- Seguridad -->
                 <div>
                     <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Seguridad</h2>
@@ -29,11 +32,11 @@
                         <div>
                             <label class="block text-sm text-gray-500 uppercase tracking-wider mb-2">Cambiar contraseña</label>
                             <input type="password" placeholder="Nueva contraseña"
-                                   class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 appearance-none focus:outline-none focus:border-transparent">
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 appearance-none focus:outline-none focus:border-transparent">
                         </div>
                         <div>
                             <input type="password" placeholder="Confirmar contraseña" 
-                                   class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 appearance-none focus:outline-none focus:border-transparent">
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 appearance-none focus:outline-none focus:border-transparent">
                         </div>
                         <button type="submit" 
                                 class="w-full bg-gray-900 hover:bg-amber-600 text-white py-3 rounded-lg transition-colors duration-300">
@@ -42,48 +45,29 @@
                     </form>
                 </div>
             </div>
+        </div>
 
-            <!-- Columna derecha -->
-            <div class="p-8">
-                <!-- Mis Pujas -->
-                <div class="mb-10">
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Mis Pujas</h2>
-                    {% if bids %}
-                        {% for bid in bids %}
-                            <p class="text-gray-500 text-center py-4">{{ bid.product }} - {{ bid.bid_amount }} €</p>
-                        {% endfor %}
-                        <div class="text-center">
-                            <a href="#" class="inline-block text-amber-600 hover:text-amber-700 font-medium">Ver todas →</a>
-                        </div>
-                    {% else %}
-                        <p class="text-gray-500 text-center py-4">No hay pujas activas actualmente</p>
-                    {% endif %}
-                </div>
-                <!-- Historial -->
-                <div>
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Historial de Adquisiciones</h2>
-                    {% if acquisitions %}
-                        {% for acq in acquisitions %}
-                            <p class="text-gray-500 text-center py-4">{{ acq.date }} - {{ acq.product }}</p>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-gray-500 text-center py-4">No hay historial disponible</p>
-                    {% endif %}
-                </div>
-                <!-- Mis Tiendas -->
-                <div>
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Mis Tiendas</h2>
-                    {% if stores %}
-                        {% for store in stores %}
-                            <p class="text-gray-500 text-center py-4">{{ store.name }}</p>
-                        {% endfor %}
-                        <div class="text-center">
-                            <a href="" id="open-form" class="inline-block text-amber-600 hover:text-amber-700 font-medium">Invitar usuario</a>
-                        </div>
-                    {% else %}
-                        <p class="text-gray-500 text-center py-4">No tienes tiendas registradas</p>
-                    {% endif %}
-                </div>
+        <!-- Mis Pujas -->
+        <div class="mb-10 p-8 w-full">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Mis Pujas</h2>
+            <div id="profile-bids">
+                {% include "components/table_bids_ajax.html" %}
+            </div>
+        </div>
+
+        <!-- Historial de Adquisiciones -->
+        <div class="mb-10 p-8 w-full">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Historial de Adquisiciones</h2>
+            <div id="profile-history-acquision">
+                {% include "components/table_stores_ajax.html" %}
+            </div>
+        </div>
+
+        <!-- Mis Tiendas -->
+        <div class="mb-10 p-8 w-full">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Mis Tiendas</h2>
+            <div id="profile-stores">
+                {% include "components/history_acquision_stores_ajax.html" %}
             </div>
         </div>
     </div>

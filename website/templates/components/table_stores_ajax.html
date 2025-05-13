@@ -1,0 +1,36 @@
+{% if stores %}
+<div class="overflow-x-auto">
+    <div class="text-right">
+        <a href="" id="open-form" class="inline-block mb-5 text-amber-600 hover:text-amber-700 font-medium">Invitar usuario</a>
+    </div>
+    <table class="min-w-full table-auto bg-white border border-gray-200 rounded-lg">
+      <thead class="bg-gray-100 text-gray-700">
+        <tr>
+          <th class="py-3 px-6 text-left">Nombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for store in stores %}
+          <tr class="border-t border-gray-200">
+            <td class="py-2 px-6">{{ store.name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-gray-500 text-center py-4">No hay historial disponible</p>
+{% endif %}
+
+<script>
+    document.getElementById('open-form').addEventListener('click', function(event) {
+      event.preventDefault();
+      document.getElementById('form-modal').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    });
+  
+    document.getElementById('close-form').addEventListener('click', function() {
+        document.getElementById('form-modal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    });
+</script>
