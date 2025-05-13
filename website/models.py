@@ -10,7 +10,12 @@ class Store(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    @classmethod
+    def get_stores_from_user(cls, user):
+        return cls.objects.filter(users=user)
+    
+    
 class Product(models.Model):
     name = models.CharField(max_length=255, blank = False)
     description = models.CharField(max_length=255, blank = False)

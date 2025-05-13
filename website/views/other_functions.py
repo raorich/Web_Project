@@ -14,3 +14,16 @@ def get_quote(request):
     return {
         'quote': quote
     }
+
+
+def paginate_objects(elements, num_featureds=20, current_page=1):
+    if num_featureds > 100: #Max limit
+        num_featureds = 100
+
+    current_page = int(current_page)
+    total_pages = float(len(elements)) // num_featureds
+    if int(total_pages) != total_pages:
+        total_pages += 1
+
+    elements = elements[num_featureds*(current_page-1):num_featureds*current_page]
+    return elements, int(total_pages)

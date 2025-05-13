@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from website.models import Product
 from django.http import HttpResponse, JsonResponse
+from .other_functions import paginate_objects
 import random
 import requests
 import time
@@ -41,18 +42,6 @@ def get_random_features(num_featureds=20, category=None, seed=None):
         num_featureds -= 1
 
     return products
-
-def paginate_products(products, num_featureds=20, page=1):
-    if num_featureds > 100: #Max limit
-        num_featureds = 100
-
-    page = int(page)
-    total_pages = float(len(products)) // num_featureds
-    if int(total_pages) != total_pages:
-        total_pages += 1
-
-    products = products[num_featureds*(page-1):num_featureds*page]
-    return products, int(total_pages)
 
 def get_products_by_auction_end_time(category=None):
     now = timezone.now()
@@ -108,7 +97,7 @@ def search_products(request):
             return levenshtein(q, product.name.lower())
         products = sorted(products, key=rank)
     
-    products, total_pages = paginate_products(products, num_featureds=TOP, page=page)
+    products, total_pages = paginate_objects(products, num_featureds=TOP, page=page)
     html = render(request, 'components/product_cards_ajax.html', {'products': products, 'current_query': q}).content.decode('utf-8')
     return JsonResponse({
             'html': html,
