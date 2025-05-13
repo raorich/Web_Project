@@ -54,3 +54,39 @@ def profile_history_acquision(request):
             'html': html,
             'total_pages': total_pages
         })
+
+####
+
+# Create Store
+@login_required
+def profile_create_store(request):
+    user = request.user
+    name_store = request.GET.get('name', '')
+
+    if not name_store:
+        return JsonResponse({'error': 'Missing store name.'}, status=400)
+
+    store, created = models.Store.objects.get_or_create(name=name_store)
+
+    if created:
+        store.users.add(user)
+        user_extended = models.UserExtended.objects.get(user=user)
+        user_extended.own_store = True
+        user_extended.save()
+        return JsonResponse({'message': 'Store created successfully.'}, status=200)
+    else:
+        return JsonResponse({'message': 'Store already exists.'}, status=400)
+
+# Remove Store # SEGURETAT L'USUARI HA d'estar dins de la store
+
+# Append new user to the store 
+
+# Edit Store
+
+# Edit Product
+
+# Create product
+
+# Remove product
+
+# Edit product
