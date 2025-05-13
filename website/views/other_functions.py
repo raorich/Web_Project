@@ -1,7 +1,7 @@
 import requests
 from django.shortcuts import render
 
-def get_quote():
+def get_quote(request):
     quote = "No se pudo cargar la frase."
     try:
         response = requests.get("https://zenquotes.io/api/random")
@@ -11,4 +11,6 @@ def get_quote():
     except:
         pass
 
-    return quote
+    return {
+        'quote': quote
+    }

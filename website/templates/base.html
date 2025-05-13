@@ -6,7 +6,7 @@
     <title>{% block title %}SubasTAME{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static './css/main.css' %}">
-    <script src="{% static './js/filters.js' %}"></script>
+    <script src="{% static './js/interactions.js' %}"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -33,7 +33,7 @@
             {% url 'register' as register_url %}
             {% if user.is_authenticated %}
               <!-- Botón de Perfil (para cualquier usuario logueado) -->
-              {% include "components/account_button.html" with link="/perfil/" text="Mi Perfil" class="mr-3" %}
+              {% include "components/account_button.html" with link="/perfil/" text="Mi Perfil" id="login-btn"%}
               <!-- Botón de Logout -->
               {% include "components/account_button.html" with link=logout_url text="Logout" %}
             {% else %}
@@ -53,12 +53,14 @@
       <div class="container mx-auto px-6">
         <!-- Sección superior del footer -->
         <div class="flex flex-col md:flex-row justify-between items-end border-b border-gray-700 pb-8 mb-8">
-          
           <!-- Información de la empresa -->
-          <div class="mb-6 md:mb-0">
+          <div class="mb-6 md:mb-0 flex flex-col justify-between">
             <p class="mt-2 text-gray-300 w-full">
               Subastas exclusivas en tiempo real para coleccionistas exigentes.
             </p>
+            <div class="text-sm text-left italic mt-3 text-amber-400" style="font-family: 'Playfair Display', serif;">
+              {{ quote }}
+            </div>
           </div>
           
           <!-- Enlaces verticales -->
