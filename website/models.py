@@ -57,7 +57,7 @@ class Art(Product):
     technique = models.CharField(max_length=100, default = '')
     country = models.CharField(max_length=100, default = '')
     dimensions = models.CharField(max_length=100, default = '')
-    year = models.IntegerField()
+    year = models.CharField(max_length=100, default = '')
 
 class Automobile(Product):
     make = models.CharField(max_length=100, default = '')
