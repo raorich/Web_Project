@@ -79,14 +79,24 @@ def profile_create_store(request):
 
 #Quit from store
 @login_required
-def profile_quit_store(request):
+def profile_remove_user_store(request):
     user = request.user
     store_pk = request.GET.get('store_id', '')
+    user_to_remove_pk = request.GET.get('user_id', '')
 
     if not store_pk:
         return JsonResponse({'error': 'Missing store_id.'}, status=400)
+        
+    if not user_to_remove_pk:
+        return JsonResponse({'error': 'Missing user_id.'}, status=400)
 
     store = models.Store.objects.filter(pk=store_pk)
+    user_to_remove = models.User.objects.filter(pk=user_to_remove_pk)
+
+    if user_to_remove:
+        user_to_remove = user_to_remove.first()
+    else:
+        return JsonResponse({'error': 'User doesn\'t exists.'}, status=400)
 
     if store:
         store = store.first()
@@ -94,7 +104,7 @@ def profile_quit_store(request):
         if not user in users_list:
             return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
 
-        users_list.remove(user)
+        users_list.remove(user_to_remove)
         store.users = users_list
         store.save()
 
@@ -103,8 +113,8 @@ def profile_quit_store(request):
             store.delete()
 
         # if the user has no more stores remove own_store
-        user_extended = models.UserExtended.objects.get(user=user)
-        other_stores = models.Store.get_stores_from_user(user)
+        user_extended = models.UserExtended.objects.get(user=user_to_remove)
+        other_stores = models.Store.get_stores_from_user(user_to_remove)
         if not other_stores:
             user_extended.own_store = False
             user_extended.save()
@@ -112,7 +122,7 @@ def profile_quit_store(request):
     else:
         return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
-# Remove Store # SEGURETAT L'USUARI HA d'estar dins de la store
+# Remove Store
 @login_required
 def profile_remove_store(request):
     user = request.user
@@ -122,7 +132,7 @@ def profile_remove_store(request):
         return JsonResponse({'error': 'Missing store_id.'}, status=400)
 
     store = models.Store.objects.filter(pk=store_pk)
-
+    
     if store:
         store = store.first()
         users_list = store.users 
@@ -186,12 +196,80 @@ def profile_add_user_store(request):
     else:
         return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
-# Edit Store
+# Edit name Store
+@login_required
+def profile_edit_name_store(request):
+    user = request.user
+    store_pk = request.GET.get('store_id', '')
+    new_name = request.GET.get('new_name', '')
 
-# Edit Product
+    if not store_pk:
+        return JsonResponse({'error': 'Missing store_id.'}, status=400)
+
+    store = models.Store.objects.filter(pk=store_pk)
+
+    if store:
+        store = store.first()
+        users_list = store.users 
+        if not user in users_list:
+            return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
+
+        new_name = new_name.strip()
+        if len(new_name) <= 5:
+            return JsonResponse({'error': 'The new name is too short.'}, status=400)
+
+        try:
+            new_name.encode('utf-8')
+        except UnicodeEncodeError:
+            return JsonResponse({'error': 'Invalid UTF-8 characters in the name.'}, status=400)
+
+        if new_name == store.name:
+            return JsonResponse({'error': 'The new name is the same.'}, status=400)
+
+        conflict_store = models.Store.objects.filter(name=new_name)
+        if conflict_store:
+            return JsonResponse({'error': 'This store already exists'}, status=400)
+        
+        store.name = new_name
+        store.save()
+
+        return JsonResponse({'message': 'User added to the Store successfully.'}, status=200)
+    else:
+        return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
+
+# Edit Product - No esta acabat
+@login_required
+def profile_edit_product_store(request):
+    user = request.user
+    store_pk = request.GET.get('store_id', '')
+    name = request.GET.get('name', '')
+    description = request.GET.get('description', '')
+    category = request.GET.get('category', '')
+    starting_price = request.GET.get('starting_price', '')
+    reserve_price = request.GET.get('reserve_price', '')
+    auction_end_time = request.GET.get('auction_end_time', None)
+    images = request.GET.get('images', [])
+
+    #filtro segons la categoria
+
+    if not store_pk:
+        return JsonResponse({'error': 'Missing store_id.'}, status=400)
+
+    store = models.Store.objects.filter(pk=store_pk)
+
+    if store:
+        store = store.first()
+        users_list = store.users 
+        if not user in users_list:
+            return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
+
+        #FALTA FER FILTROS
+
+        return JsonResponse({'message': 'Product edited successfully.'}, status=200)
+    else:
+        return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
+
 
 # Create product
 
 # Remove product
-
-# Edit product
