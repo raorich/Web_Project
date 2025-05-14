@@ -129,6 +129,7 @@
 
     function buscarProductos(category) {
       const query = $('#search-input').val();
+      const active_products = $('#search-input').val();
       $('#current-page').text(`Página ${current_page}`);
       $.ajax({
         url: '/search-products/',

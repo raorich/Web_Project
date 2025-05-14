@@ -86,7 +86,7 @@ def search_products(request):
     total_pages = 1
 
     if not q:
-        products = get_products_by_auction_end_time(category=category)
+        products, _ = get_products_by_auction_end_time(category=category)
     else:
         products = Product.objects.filter(name__icontains=q)
         if category:
