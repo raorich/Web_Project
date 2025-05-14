@@ -1,3 +1,4 @@
+
 {% if bids %}
 <div class="overflow-x-auto">
     <table class="min-w-full table-auto bg-white border border-gray-200 rounded-lg">
@@ -31,52 +32,3 @@
 {% else %}
     <p class="text-gray-500 text-center py-4">No hay pujas activas actualmente</p>
 {% endif %}
-
-<script>
-$(document).ready(function () {
-    let selectedFilter = null;
-    let current_page = 1;
-    buscarProductos();
-    $('#previous-page-bids').hide();
-
-    // Detecta si el usuario pasa de pagina
-    $('#next-page-bids').on('click', function () {
-      current_page += 1;
-      buscarProductos();
-    });
-
-    $('#previous-page-bids').on('click', function () {
-      if (current_page > 1) {
-        current_page -= 1;
-        buscarProductos();
-      }
-    });
-
-    function buscarProductos() {
-      $('#current-page-bids').text(`Página ${current_page}`);
-      $.ajax({
-        url: '/profile-bids/',
-        data: {
-          'page': current_page
-        },
-        dataType: 'json',
-        success: function (data) {
-          $('#profile-bids').html(data.html);
-          console.log(data.total_pages)
-          //Mira el numero maximo de paginas y esconde los botones
-          if (current_page >= data.total_pages) {
-            $('#next-page-bids').hide();
-          } else {
-            $('#next-page-bids').show();
-          }
-
-          if (current_page <= 1) {
-            $('#previous-page-bids').hide();
-          } else {
-            $('#previous-page-bids').show();
-          }
-        }
-      });
-    }
-  });
-</script>

@@ -59,7 +59,7 @@
         <div class="mb-10 p-8 w-full">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Historial de Adquisiciones</h2>
             <div id="profile-history-acquision">
-                {% include "components/table_stores_ajax.html" %}
+                {% include "components/history_acquision_stores_ajax.html" %}
             </div>
         </div>
 
@@ -67,43 +67,145 @@
         <div class="mb-10 p-8 w-full">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Mis Tiendas</h2>
             <div id="profile-stores">
-                {% include "components/history_acquision_stores_ajax.html" %}
+                {% include "components/table_stores_ajax.html" %}
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal oculto -->
-<div id="form-modal" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
-    background: white; padding: 20px; border: 1px solid #ccc; z-index: 1000;">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Invitar usuario</h2>
-    <form class="space-y-5">
-        <div>
-            <select name="store" id="store-select" class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none focus:border-transparent">
-                <option value="">Seleccionar tienda</option>
-                {% for store in stores %}
-                    <option value="{{ store.id }}">{{ store.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div>
-            <input type="text" name="username" placeholder="Nombre de usuario"
-            class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 appearance-none focus:ring-amber-500 focus:outline-none focus:border-transparent">
-        </div>
-        <div class="container mx-auto flex p-5 space-x-4">
-            <button type="submit" 
-                class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
-                Invitar
-            </button>
-            <button type="button" id="close-form" 
-                class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
-                Cancelar
-            </button>
-        </div>
-    </form>
-</div>
+<script>
+    $(document).ready(function () {
+        let current_page = 1;
 
-<!-- Fondo oscurecido -->
-<div id="overlay" style="display: none; position: fixed; top: 0; left: 0; 
-    width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+        bids();
+        historyAcquision();
+        stores();
+
+        $('#previous-page-bids').hide();
+    
+        // Detecta si el usuario pasa de pagina
+        $('#next-page-bids').on('click', function () {
+        current_page += 1;
+        bids();
+        });
+
+        $('#previous-page-bids').on('click', function () {
+        if (current_page > 1) {
+            current_page -= 1;
+            bids();
+        }
+        });
+
+        function bids() {
+            $('#current-page-bids').text(`Página ${current_page}`);
+            $.ajax({
+                url: '/profile-bids/',
+                data: {
+                'page': current_page
+                },
+                dataType: 'json',
+                success: function (data) {
+                $('#profile-bids').html(data.html);
+                console.log(data.total_pages)
+                //Mira el numero maximo de paginas y esconde los botones
+                if (current_page >= data.total_pages) {
+                    $('#next-page-bids').hide();
+                } else {
+                    $('#next-page-bids').show();
+                }
+
+                if (current_page <= 1) {
+                    $('#previous-page-bids').hide();
+                } else {
+                    $('#previous-page-bids').show();
+                }
+                }
+            });
+        }
+
+        $('#previous-page-history-acquision').hide();
+    
+        // Detecta si el usuario pasa de pagina
+        $('#next-page-history-acquision').on('click', function () {
+            current_page += 1;
+            historyAcquision();
+        });
+    
+        $('#previous-page-history-acquision').on('click', function () {
+          if (current_page > 1) {
+            current_page -= 1;
+            historyAcquision();
+          }
+        });
+    
+        function historyAcquision() {
+            $('#current-page-history-acquision').text(`Página ${current_page}`);
+            $.ajax({
+            url: '/profile-history-acquision/',
+            data: {
+                'page': current_page
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('#profile-history-acquision').html(data.html);
+                console.log(data.total_pages)
+                //Mira el numero maximo de paginas y esconde los botones
+                if (current_page >= data.total_pages) {
+                $('#next-page-history-acquision').hide();
+                } else {
+                $('#next-page-history-acquision').show();
+                }
+
+                if (current_page <= 1) {
+                $('#previous-page-history-acquision').hide();
+                } else {
+                $('#previous-page-history-acquision').show();
+                }
+            }
+            });
+        }
+
+        $('#previous-page-stores').hide();
+    
+        // Detecta si el usuario pasa de pagina
+        $('#next-page-stores').on('click', function () {
+            current_page += 1;
+            stores();
+        });
+
+        $('#previous-page-stores').on('click', function () {
+        if (current_page > 1) {
+            current_page -= 1;
+            stores();
+        }
+        });
+
+        function stores() {
+            $('#current-page-stores').text(`Página ${current_page}`);
+            $.ajax({
+            url: '/profile-stores/',
+            data: {
+                'page': current_page
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('#profile-stores').html(data.html);
+                console.log(data.total_pages)
+                //Mira el numero maximo de paginas y esconde los botones
+                if (current_page >= data.total_pages) {
+                $('#next-page-stores').hide();
+                } else {
+                $('#next-page-stores').show();
+                }
+
+                if (current_page <= 1) {
+                $('#previous-page-stores').hide();
+                } else {
+                $('#previous-page-stores').show();
+                }
+            }
+            });
+        }
+    });
+</script>
 {% endblock %}
