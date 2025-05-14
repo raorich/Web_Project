@@ -75,11 +75,116 @@ def profile_create_store(request):
         user_extended.save()
         return JsonResponse({'message': 'Store created successfully.'}, status=200)
     else:
-        return JsonResponse({'message': 'Store already exists.'}, status=400)
+        return JsonResponse({'error': 'Store already exists.'}, status=400)
+
+#Quit from store
+@login_required
+def profile_quit_store(request):
+    user = request.user
+    store_pk = request.GET.get('store_id', '')
+
+    if not store_pk:
+        return JsonResponse({'error': 'Missing store_id.'}, status=400)
+
+    store = models.Store.objects.filter(pk=store_pk)
+
+    if store:
+        store = store.first()
+        users_list = store.users 
+        if not user in users_list:
+            return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
+
+        users_list.remove(user)
+        store.users = users_list
+        store.save()
+
+        # if there is no more users, remove the store
+        if not users_list:
+            store.delete()
+
+        # if the user has no more stores remove own_store
+        user_extended = models.UserExtended.objects.get(user=user)
+        other_stores = models.Store.get_stores_from_user(user)
+        if not other_stores:
+            user_extended.own_store = False
+            user_extended.save()
+        return JsonResponse({'message': 'Quited from Store successfully.'}, status=200)
+    else:
+        return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
 # Remove Store # SEGURETAT L'USUARI HA d'estar dins de la store
+@login_required
+def profile_remove_store(request):
+    user = request.user
+    store_pk = request.GET.get('store_id', '')
+
+    if not store_pk:
+        return JsonResponse({'error': 'Missing store_id.'}, status=400)
+
+    store = models.Store.objects.filter(pk=store_pk)
+
+    if store:
+        store = store.first()
+        users_list = store.users 
+        if not user in users_list:
+            return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
+        
+        for u in users_list:
+            users_list.remove(u)
+            # if the user has no more stores remove own_store
+            user_extended = models.UserExtended.objects.get(user=user)
+            other_stores = models.Store.get_stores_from_user(user)
+            if not other_stores:
+                user_extended.own_store = False
+                user_extended.save()
+            
+        store.users = users_list
+        store.save()
+        store.delete()
+        
+        return JsonResponse({'message': 'Store deleted successfully.'}, status=200)
+    else:
+        return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
 # Append new user to the store 
+@login_required
+def profile_add_user_store(request):
+    user = request.user
+    store_pk = request.GET.get('store_id', '')
+    user_to_add_pk = request.GET.get('user_id', '')
+
+    if not store_pk:
+        return JsonResponse({'error': 'Missing store_id.'}, status=400)
+
+    if not user_to_add_pk:
+        return JsonResponse({'error': 'Missing user_id.'}, status=400)
+
+    store = models.Store.objects.filter(pk=store_pk)
+    user_to_add = models.User.objects.filter(pk=user_to_add_pk)
+
+    if user_to_add:
+        user_to_add = user_to_add.first()
+    else:
+        return JsonResponse({'error': 'User doesn\'t exists.'}, status=400)
+
+    if store:
+        store = store.first()
+        users_list = store.users 
+        if not user in users_list:
+            return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
+        if user_to_add in users_list:
+            return JsonResponse({'error': 'This user already is in this store.'}, status=400)
+
+        users_list.add(user_to_add)
+        store.users = users_list
+        store.save()
+
+        user_extended = models.UserExtended.objects.get(user=user_to_add)
+        user_extended.own_store = True
+        user_extended.save()
+        return JsonResponse({'message': 'User added to the Store successfully.'}, status=200)
+    else:
+        return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
 # Edit Store
 
