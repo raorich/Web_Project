@@ -161,7 +161,16 @@ def profile_remove_store(request):
 def profile_add_user_store(request):
     user = request.user
     store_pk = request.GET.get('store_id', '')
-    user_to_add_pk = request.GET.get('user_id', '')
+    username_to_add = request.GET.get('user_id', '')
+
+    if not username_to_add:
+        return JsonResponse({'error': 'Missing username.'}, status=400)
+
+    try:
+        user_to_add = models.User.objects.get(username=username_to_add)
+        user_to_add_pk = user_to_add.id
+    except models.User.DoesNotExist:
+        return JsonResponse({'error': 'User doesn\'t exist.'}, status=400)
 
     if not store_pk:
         return JsonResponse({'error': 'Missing store_id.'}, status=400)
@@ -179,20 +188,19 @@ def profile_add_user_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
-        if user_to_add in users_list:
+        if user_to_add in store.users.all():
             return JsonResponse({'error': 'This user already is in this store.'}, status=400)
 
-        users_list.add(user_to_add)
-        store.users = users_list
-        store.save()
+        store.users.add(user_to_add)
 
         user_extended = models.UserExtended.objects.get(user=user_to_add)
         user_extended.own_store = True
         user_extended.save()
-        return JsonResponse({'message': 'User added to the Store successfully.'}, status=200)
+
+        return JsonResponse({'message': 'User added to the store successfully.'}, status=200)
     else:
         return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 

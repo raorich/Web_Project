@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from website.forms.form_login import UserRegister
+from website.models import UserExtended
+
 def register(request):
     if request.method == 'POST':
         form = UserRegister(request.POST)
         if form.is_valid():
             user = form.save()
+            UserExtended.objects.get_or_create(
+                user=user,
+                own_store=False,
+            )
             login(request, user)
             return redirect('home')
     else:

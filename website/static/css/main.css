@@ -1062,13 +1062,6 @@
       }
     }
   }
-  .hover\:bg-gray-200 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-gray-200);
-      }
-    }
-  }
   .hover\:from-amber-600 {
     &:hover {
       @media (hover: hover) {

@@ -18,5 +18,5 @@ urlpatterns = [
     path('profile-bids/', views.profile_bids, name='profile_bids'),
     path('profile-stores/', views.profile_stores, name='profile_stores'),
     path('profile-history-acquision/', views.profile_history_acquision, name='profile_history_acquision'),
-
+    path('add-user-store/', views.profile_add_user_store, name='profile_add_user_store'),
 ] 
