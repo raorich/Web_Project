@@ -1,4 +1,5 @@
 import requests
+import math
 from django.shortcuts import render
 
 def get_quote(request):
@@ -21,7 +22,7 @@ def paginate_objects(elements, num_featureds=20, page=1):
         num_featureds = 100
 
     page = int(page)
-    total_pages = float(len(elements)) // num_featureds
+    total_pages = math.ceil(len(elements) / num_featureds)
     if int(total_pages) != total_pages:
         total_pages += 1
 

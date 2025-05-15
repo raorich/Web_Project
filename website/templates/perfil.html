@@ -53,6 +53,17 @@
             <div id="profile-bids">
                 {% include "components/table_bids_ajax.html" %}
             </div>
+            <div class="flex justify-center items-center gap-6 mt-3">
+                <!-- Botón página anterior -->
+                <a id="previous-page-bids" href="#profile-bids" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+                    ← Página anterior
+                </a>
+                <span id="current-page-bids" class="text-gray-700 font-semibold">Página 1</span>
+                <!-- Botón siguiente página -->
+                <a id="next-page-bids" href="#profile-bids" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+                    Siguiente página →
+                </a>
+            </div>
         </div>
 
         <!-- Historial de Adquisiciones -->
@@ -61,6 +72,17 @@
             <div id="profile-history-acquision">
                 {% include "components/history_acquision_stores_ajax.html" %}
             </div>
+            <div class="flex justify-center items-center gap-6 mt-3">
+                <!-- Botón página anterior -->
+                <a id="previous-page-history-acquision" href="#profile-history-acquision" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+                    ← Página anterior
+                </a>
+                <span id="current-page-history-acquision" class="text-gray-700 font-semibold">Página 1</span>
+                <!-- Botón siguiente página -->
+                <a id="next-page-history-acquision" href="#profile-history-acquision" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+                    Siguiente página →
+                </a>
+              </div>
         </div>
 
         <!-- Mis Tiendas -->
@@ -69,13 +91,26 @@
             <div id="profile-stores">
                 {% include "components/table_stores_ajax.html" %}
             </div>
+            <div class="flex justify-center items-center gap-6 mt-3">
+                <!-- Botón página anterior -->
+                <a id="previous-page-stores" href="#profile-stores" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+                    ← Página anterior
+                </a>
+                <span id="current-page-stores" class="text-gray-700 font-semibold">Página 1</span>
+                <!-- Botón siguiente página -->
+                <a id="next-page-stores" href="#profile-stores" class="inline-flex items-center text-amber-600 font-medium hover:underline">
+                    Siguiente página →
+                </a>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
     $(document).ready(function () {
-        let current_page = 1;
+        let current_page_bids = 1;
+        let current_page_acquisitions = 1;
+        let current_page_stores = 1;
 
         bids();
         historyAcquision();
@@ -85,36 +120,36 @@
     
         // Detecta si el usuario pasa de pagina
         $('#next-page-bids').on('click', function () {
-        current_page += 1;
-        bids();
+            current_page_bids += 1;
+            bids();
         });
 
         $('#previous-page-bids').on('click', function () {
-        if (current_page > 1) {
-            current_page -= 1;
+        if (current_page_bids > 1) {
+            current_page_bids -= 1;
             bids();
         }
         });
 
         function bids() {
-            $('#current-page-bids').text(`Página ${current_page}`);
+            $('#current-page-bids').text(`Página ${current_page_bids}`);
             $.ajax({
                 url: '/profile-bids/',
                 data: {
-                'page': current_page
+                'page': current_page_bids
                 },
                 dataType: 'json',
                 success: function (data) {
                 $('#profile-bids').html(data.html);
                 console.log(data.total_pages)
                 //Mira el numero maximo de paginas y esconde los botones
-                if (current_page >= data.total_pages) {
+                if (current_page_bids > data.total_pages) {
                     $('#next-page-bids').hide();
                 } else {
                     $('#next-page-bids').show();
                 }
 
-                if (current_page <= 1) {
+                if (current_page_bids <= 1) {
                     $('#previous-page-bids').hide();
                 } else {
                     $('#previous-page-bids').show();
@@ -127,36 +162,36 @@
     
         // Detecta si el usuario pasa de pagina
         $('#next-page-history-acquision').on('click', function () {
-            current_page += 1;
+            current_page_acquisitions += 1;
             historyAcquision();
         });
     
         $('#previous-page-history-acquision').on('click', function () {
-          if (current_page > 1) {
-            current_page -= 1;
+          if (current_page_acquisitions > 1) {
+            current_page_acquisitions -= 1;
             historyAcquision();
           }
         });
     
         function historyAcquision() {
-            $('#current-page-history-acquision').text(`Página ${current_page}`);
+            $('#current-page-history-acquision').text(`Página ${current_page_acquisitions}`);
             $.ajax({
             url: '/profile-history-acquision/',
             data: {
-                'page': current_page
+                'page': current_page_acquisitions
             },
             dataType: 'json',
             success: function (data) {
                 $('#profile-history-acquision').html(data.html);
                 console.log(data.total_pages)
                 //Mira el numero maximo de paginas y esconde los botones
-                if (current_page >= data.total_pages) {
+                if (current_page_acquisitions > data.total_pages) {
                 $('#next-page-history-acquision').hide();
                 } else {
                 $('#next-page-history-acquision').show();
                 }
 
-                if (current_page <= 1) {
+                if (current_page_acquisitions <= 1) {
                 $('#previous-page-history-acquision').hide();
                 } else {
                 $('#previous-page-history-acquision').show();
@@ -169,39 +204,40 @@
     
         // Detecta si el usuario pasa de pagina
         $('#next-page-stores').on('click', function () {
-            current_page += 1;
+            current_page_stores += 1;
             stores();
         });
 
         $('#previous-page-stores').on('click', function () {
-        if (current_page > 1) {
-            current_page -= 1;
+        if (current_page_stores > 1) {
+            current_page_stores -= 1;
             stores();
         }
         });
 
         function stores() {
-            $('#current-page-stores').text(`Página ${current_page}`);
+            $('#current-page-stores').text(`Página ${current_page_stores}`);
             $.ajax({
             url: '/profile-stores/',
             data: {
-                'page': current_page
+                'page': current_page_stores
             },
             dataType: 'json',
             success: function (data) {
                 $('#profile-stores').html(data.html);
                 console.log(data.total_pages)
+                
                 //Mira el numero maximo de paginas y esconde los botones
-                if (current_page >= data.total_pages) {
-                $('#next-page-stores').hide();
+                if (current_page_stores >= data.total_pages) {
+                    $('#next-page-stores').hide();
                 } else {
-                $('#next-page-stores').show();
+                    $('#next-page-stores').show();
                 }
 
-                if (current_page <= 1) {
-                $('#previous-page-stores').hide();
+                if (current_page_stores <= 1) {
+                    $('#previous-page-stores').hide();
                 } else {
-                $('#previous-page-stores').show();
+                    $('#previous-page-stores').show();
                 }
             }
             });

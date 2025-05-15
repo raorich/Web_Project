@@ -19,4 +19,8 @@ urlpatterns = [
     path('profile-stores/', views.profile_stores, name='profile_stores'),
     path('profile-history-acquision/', views.profile_history_acquision, name='profile_history_acquision'),
     path('add-user-store/', views.profile_add_user_store, name='profile_add_user_store'),
+    path('add-new-store/', views.profile_create_store, name='profile_create_store'),
+    path('remove-store/', views.profile_remove_store, name='profile_remove_store'),
+    path('remove-user-store/', views.profile_remove_user_store, name='profile_remove_user_store'),
+    path('remove-user-store/', views.profile_edit_name_store, name='profile_edit_name_store'),
 ] 

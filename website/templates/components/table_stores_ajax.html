@@ -1,40 +1,40 @@
 {% if stores %}
 <div class="overflow-x-auto">
-  <div class="text-right">
-      <a href="" id="open-form" class="inline-block mb-5 text-amber-600 hover:text-amber-700 font-medium">Invitar usuario</a>
+  <div class="text-left flex justify-between">
+      <a href="" id="open-invite-form" class="inline-block mb-5 text-amber-600 hover:text-amber-700 font-medium">Invitar usuario</a>
+      <a href="" id="open-new-store-form" class="inline-block mb-5 text-amber-600 hover:text-amber-700 font-medium">Añadir tienda</a>
+      <a href="" id="open-remove-form" class="inline-block mb-5 text-amber-600 hover:text-amber-700 font-medium">Eliminar usuario</a>
   </div>
   <table class="min-w-full table-auto bg-white border border-gray-200 rounded-lg">
     <thead class="bg-gray-100 text-gray-700">
       <tr>
         <th class="py-3 px-6 text-left">Nombre</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       {% for store in stores %}
         <tr class="border-t border-gray-200">
           <td class="py-2 px-6">{{ store.name }}</td>
+          <td class="py-2 px-6 text-right">
+            <form method="get" action="{% url 'profile_remove_store' %}" onsubmit="return confirm('¿Estás seguro de eliminar la tienda \'{{ store.name }}\'?');">
+              <input type="hidden" name="store_id" value="{{ store.id }}">
+              <button type="submit" class="inline-block text-amber-600 hover:text-amber-700 font-medium">
+                Eliminar
+              </button>
+            </form>
+          </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-</div>
-<div class="flex justify-center items-center gap-6 mt-3">
-    <!-- Botón página anterior -->
-    <a id="previous-page-stores" href="#profile-stores" class="inline-flex items-center text-amber-600 font-medium hover:underline">
-        ← Página anterior
-    </a>
-    <span id="current-page-stores" class="text-gray-700 font-semibold">Página 1</span>
-    <!-- Botón siguiente página -->
-    <a id="next-page-stores" href="#profile-stores" class="inline-flex items-center text-amber-600 font-medium hover:underline">
-        Siguiente página →
-    </a>
 </div>
 {% else %}
     <p class="text-gray-500 text-center py-4">No tienes tiendas registradas</p>
 {% endif %}
 
 <!-- Modal oculto -->
-<div id="form-modal" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
+<div id="invite-form-modal" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
     background: white; padding: 20px; border: 1px solid #ccc; z-index: 1000;">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Invitar usuario</h2>
     <form method="get" action="{% url 'profile_add_user_store' %}" class="space-y-5">
@@ -48,7 +48,7 @@
           </select>
       </div>
       <div>
-          <input type="text" name="user_id" id="username" placeholder="Nombre de usuario"
+          <input type="text" name="user_username" placeholder="Nombre de usuario"
           class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 appearance-none focus:ring-amber-500 focus:outline-none focus:border-transparent">
       </div>
       <div class="container mx-auto flex p-5 space-x-4">
@@ -56,7 +56,61 @@
               class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
               Invitar
           </button>
-          <button type="button" id="close-form" 
+          <button type="button" id="close-invite-form" 
+              class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
+              Cancelar
+          </button>
+      </div>
+    </form>
+</div>
+
+<!-- Modal oculto -->
+<div id="new-store-modal" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
+    background: white; padding: 20px; border: 1px solid #ccc; z-index: 1000;">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Añadir nueva tienda</h2>
+    <form method="get" action="{% url 'profile_create_store' %}" class="space-y-5">
+      {% csrf_token %}
+      <div>
+          <input type="text" name="store_name" id="store_name" placeholder="Nombre de la tienda"
+          class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 appearance-none focus:ring-amber-500 focus:outline-none focus:border-transparent">
+      </div>
+      <div class="container mx-auto flex p-5 space-x-4">
+          <button type="submit" 
+              class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
+              Añadir
+          </button>
+          <button type="button" id="close-new-store-form" 
+              class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
+              Cancelar
+          </button>
+      </div>
+    </form>
+</div>
+
+<!-- Modal oculto -->
+<div id="remove-form-modal" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
+    background: white; padding: 20px; border: 1px solid #ccc; z-index: 1000;">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Eliminar usuario</h2>
+    <form method="get" action="{% url 'profile_remove_user_store' %}" class="space-y-5">
+      {% csrf_token %}
+      <div>
+          <select name="store_id" id="store-selector" class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none focus:border-transparent">
+              <option value="">Seleccionar tienda</option>
+              {% for store in stores %}
+                  <option value="{{ store.id }}">{{ store.name }}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <div>
+          <input type="text" name="user_username" placeholder="Nombre de usuario"
+          class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 appearance-none focus:ring-amber-500 focus:outline-none focus:border-transparent">
+      </div>
+      <div class="container mx-auto flex p-5 space-x-4">
+          <button type="submit" 
+              class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
+              Eliminar
+          </button>
+          <button type="button" id="close-remove-form" 
               class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
               Cancelar
           </button>
@@ -69,14 +123,34 @@
     width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
 
 <script>    
-  document.getElementById('open-form').addEventListener('click', function(event) {
+  document.getElementById('open-invite-form').addEventListener('click', function(event) {
     event.preventDefault();
-    document.getElementById('form-modal').style.display = 'block';
+    document.getElementById('invite-form-modal').style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
   });
 
-  document.getElementById('close-form').addEventListener('click', function() {
-      document.getElementById('form-modal').style.display = 'none';
+  document.getElementById('close-invite-form').addEventListener('click', function() {
+      document.getElementById('invite-form-modal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+  });
+  document.getElementById('open-new-store-form').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('new-store-modal').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  });
+
+  document.getElementById('close-new-store-form').addEventListener('click', function() {
+      document.getElementById('new-store-modal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+  });
+  document.getElementById('open-remove-form').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('remove-form-modal').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  });
+
+  document.getElementById('close-remove-form').addEventListener('click', function() {
+      document.getElementById('remove-form-modal').style.display = 'none';
       document.getElementById('overlay').style.display = 'none';
   });
 </script>

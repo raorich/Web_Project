@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from website import models
 from django.http import HttpResponse, JsonResponse
@@ -60,7 +60,7 @@ def profile_history_acquision(request):
 @login_required
 def profile_create_store(request):
     user = request.user
-    name_store = request.GET.get('name', '')
+    name_store = request.GET.get('store_name', '')
 
     if not name_store:
         return JsonResponse({'error': 'Missing store name.'}, status=400)
@@ -72,7 +72,9 @@ def profile_create_store(request):
         user_extended = models.UserExtended.objects.get(user=user)
         user_extended.own_store = True
         user_extended.save()
-        return JsonResponse({'message': 'Store created successfully.'}, status=200)
+
+        return redirect('perfil')
+        # return JsonResponse({'message': 'Store created successfully.'}, status=200)
     else:
         return JsonResponse({'error': 'Store already exists.'}, status=400)
 
@@ -106,11 +108,10 @@ def profile_remove_user_store(request):
     if store:
         store = store.first()
         users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
 
-        users_list.remove(user_to_remove)
-        store.users = users_list
+        store.users.remove(user_to_remove)
         store.save()
 
         # if there is no more users, remove the store
@@ -123,7 +124,8 @@ def profile_remove_user_store(request):
         if not other_stores:
             user_extended.own_store = False
             user_extended.save()
-        return JsonResponse({'message': 'Quited from Store successfully.'}, status=200)
+
+        return redirect('perfil')
     else:
         return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
@@ -140,24 +142,19 @@ def profile_remove_store(request):
     
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
-            return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
+        store.users.clear()
         
-        for u in users_list:
-            users_list.remove(u)
-            # if the user has no more stores remove own_store
-            user_extended = models.UserExtended.objects.get(user=user)
-            other_stores = models.Store.get_stores_from_user(user)
-            if not other_stores:
-                user_extended.own_store = False
-                user_extended.save()
-            
-        store.users = users_list
+        user_extended = models.UserExtended.objects.get(user=user)
+        other_stores = models.Store.get_stores_from_user(user)
+        if not other_stores:
+            user_extended.own_store = False
+            user_extended.save()
+        
         store.save()
         store.delete()
-        
-        return JsonResponse({'message': 'Store deleted successfully.'}, status=200)
+
+        return redirect('perfil')
+        # return JsonResponse({'message': 'Store deleted successfully.'}, status=200)
     else:
         return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
@@ -200,12 +197,13 @@ def profile_add_user_store(request):
             return JsonResponse({'error': 'This user already is in this store.'}, status=400)
 
         store.users.add(user_to_add)
-
+        store.save()
         user_extended = models.UserExtended.objects.get(user=user_to_add)
         user_extended.own_store = True
         user_extended.save()
 
-        return JsonResponse({'message': 'User added to the store successfully.'}, status=200)
+        return redirect('perfil')
+        # return JsonResponse({'message': 'User added to the store successfully.'}, status=200)
     else:
         return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
@@ -467,7 +465,7 @@ def profile_create_product_store(request):
 
 # Remove product
 @login_required
-def profile_create_product_store(request):
+def profile_remove_product_store(request):
     user = request.user
     store_pk = request.GET.get('store_id', '')
     product_pk = request.GET.get('product_id', '')
