@@ -30,7 +30,14 @@
   </table>
 </div>
 {% else %}
+  <div class="overflow-x-auto">
+    <div class="text-left flex justify-between">
+      <a href="" class="inline-block mb-5"></a>
+      <a href="" id="open-new-store-form" class="inline-block mb-5 text-amber-600 hover:text-amber-700 font-medium">Añadir tienda</a>
+      <a href="" class="inline-block mb-5"></a>
+    </div>
     <p class="text-gray-500 text-center py-4">No tienes tiendas registradas</p>
+  </div>
 {% endif %}
 
 <!-- Modal oculto -->
@@ -122,35 +129,57 @@
 <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; 
     width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
 
-<script>    
-  document.getElementById('open-invite-form').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('invite-form-modal').style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-  });
+<script>
+  var openInviteBtn = document.getElementById('open-invite-form');
+  if (openInviteBtn) {
+    openInviteBtn.addEventListener('click', function(event) {
+      event.preventDefault();
+      document.getElementById('invite-form-modal').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    });
+  }
 
-  document.getElementById('close-invite-form').addEventListener('click', function() {
+  var closeInviteBtn = document.getElementById('close-invite-form');
+  if (closeInviteBtn) {
+    closeInviteBtn.addEventListener('click', function() {
       document.getElementById('invite-form-modal').style.display = 'none';
       document.getElementById('overlay').style.display = 'none';
-  });
-  document.getElementById('open-new-store-form').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('new-store-modal').style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-  });
+    });
+  }
 
-  document.getElementById('close-new-store-form').addEventListener('click', function() {
+  var openNewStoreBtn = document.getElementById('open-new-store-form');
+  if (openNewStoreBtn) {
+    openNewStoreBtn.addEventListener('click', function(event) {
+      console.log("SIIIIII");
+      event.preventDefault();
+      document.getElementById('new-store-modal').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    });
+  }
+
+  var closeNewStoreBtn = document.getElementById('close-new-store-form');
+  if (closeNewStoreBtn) {
+    closeNewStoreBtn.addEventListener('click', function() {
       document.getElementById('new-store-modal').style.display = 'none';
       document.getElementById('overlay').style.display = 'none';
-  });
-  document.getElementById('open-remove-form').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('remove-form-modal').style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-  });
+    });
+  }
 
-  document.getElementById('close-remove-form').addEventListener('click', function() {
+  var openRemoveBtn = document.getElementById('open-remove-form');
+  if (openRemoveBtn) {
+    openRemoveBtn.addEventListener('click', function(event) {
+      event.preventDefault();
+      document.getElementById('remove-form-modal').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    });
+  }
+
+  var closeRemoveBtn = document.getElementById('close-remove-form');
+  if (closeRemoveBtn) {
+    closeRemoveBtn.addEventListener('click', function() {
       document.getElementById('remove-form-modal').style.display = 'none';
       document.getElementById('overlay').style.display = 'none';
-  });
+    });
+  }
+
 </script>
