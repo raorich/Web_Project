@@ -206,7 +206,7 @@ def profile_add_user_store(request):
 
         store.users.add(user_to_add)
         store.save()
-        user_extended = models.UserExtended.objects.get(user=user_to_add)
+        user_extended, create = models.UserExtended.objects.get_or_create(user=user_to_add)
         user_extended.own_store = True
         user_extended.save()
 
