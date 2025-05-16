@@ -149,7 +149,9 @@ def profile_remove_store(request):
             return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
 
         for u in store.users.all():
+            store.users.remove(u)
             user_extended = models.UserExtended.objects.filter(user=u)
+            print(user_extended)
             if user_extended:
                 user_extended = user_extended.first()
                 other_stores = models.Store.get_stores_from_user(u)
