@@ -16,13 +16,13 @@
       {% for store in stores %}
         <tr class="border-t border-gray-200">
           <td class="py-2 px-6">{{ store.name }}</td>
-          <td class="py-2 px-6 text-right">
-            <form method="get" action="{% url 'profile_remove_store' %}" onsubmit="return confirm('¿Estás seguro de eliminar la tienda \'{{ store.name }}\'?');">
-              <input type="hidden" name="store_id" value="{{ store.id }}">
-              <button type="submit" class="inline-block text-amber-600 hover:text-amber-700 font-medium">
-                Eliminar
-              </button>
-            </form>
+          <td class="py-2 px-6 flex justify-end text-right">
+            <button data-store-id="{{ store.id }}" data-store-name="{{ store.name }}" class="editstore-form inline-block text-amber-600 hover:text-amber-700 mr-5 font-medium">
+              Editar
+            </button>
+            <button data-remove-id="{{ store.id }}" data-remove-name="{{ store.name }}" class="removestore-form inline-block text-amber-600 hover:text-amber-700 font-medium">
+              Eliminar
+            </button>
           </td>
         </tr>
       {% endfor %}
@@ -41,8 +41,49 @@
 {% endif %}
 
 <!-- Modal oculto -->
-<div id="invite-form-modal" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
-    background: white; padding: 20px; border: 1px solid #ccc; z-index: 1000;">
+<div id="removestore-form-modal" class="profile-modal">
+  <h2 id="remove-store-name" class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200"> </h2>
+  <form method="get" action="{% url 'profile_remove_store' %}" class="space-y-5">
+    {% csrf_token %}
+    <div class="container mx-auto flex justify-center p-5 space-x-4">
+        <input type="hidden" name="store_id" id="remove-store-id">
+        <button type="submit" 
+            class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
+            Eliminar
+        </button>
+        <button type="button" id="close-removestore-form" 
+            class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
+            Cancelar
+        </button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal oculto -->
+<div id="edit-form-modal" class="profile-modal">
+  <h2 id="edit-store-name" class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200"> </h2>
+  <form method="get" action="{% url 'profile_edit_name_store' %}" class="space-y-5">
+    {% csrf_token %}
+    <div>
+        <input type="text" name="new_name" placeholder="Nuevo nombre"
+        class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 appearance-none focus:ring-amber-500 focus:outline-none focus:border-transparent">
+    </div>
+    <div class="container mx-auto flex justify-center p-5 space-x-4">
+        <input type="hidden" name="store_id" id="edit-store-id">
+        <button type="submit" 
+            class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
+            Editar
+        </button>
+        <button type="button" id="close-edit-form" 
+            class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
+            Cancelar
+        </button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal oculto -->
+<div id="invite-form-modal" class="profile-modal">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Invitar usuario</h2>
     <form method="get" action="{% url 'profile_add_user_store' %}" class="space-y-5">
       {% csrf_token %}
@@ -58,7 +99,7 @@
           <input type="text" name="user_username" placeholder="Nombre de usuario"
           class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 appearance-none focus:ring-amber-500 focus:outline-none focus:border-transparent">
       </div>
-      <div class="container mx-auto flex p-5 space-x-4">
+      <div class="container mx-auto flex justify-center p-5 space-x-4">
           <button type="submit" 
               class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
               Invitar
@@ -72,8 +113,7 @@
 </div>
 
 <!-- Modal oculto -->
-<div id="new-store-modal" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
-    background: white; padding: 20px; border: 1px solid #ccc; z-index: 1000;">
+<div id="new-store-modal" class="profile-modal">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Añadir nueva tienda</h2>
     <form method="get" action="{% url 'profile_create_store' %}" class="space-y-5">
       {% csrf_token %}
@@ -81,7 +121,7 @@
           <input type="text" name="store_name" id="store_name" placeholder="Nombre de la tienda"
           class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 appearance-none focus:ring-amber-500 focus:outline-none focus:border-transparent">
       </div>
-      <div class="container mx-auto flex p-5 space-x-4">
+      <div class="container mx-auto flex justify-center p-5 space-x-4">
           <button type="submit" 
               class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
               Añadir
@@ -95,8 +135,7 @@
 </div>
 
 <!-- Modal oculto -->
-<div id="remove-form-modal" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
-    background: white; padding: 20px; border: 1px solid #ccc; z-index: 1000;">
+<div id="remove-form-modal" class="profile-modal">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">Eliminar usuario</h2>
     <form method="get" action="{% url 'profile_remove_user_store' %}" class="space-y-5">
       {% csrf_token %}
@@ -112,7 +151,7 @@
           <input type="text" name="user_username" placeholder="Nombre de usuario"
           class="block w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 appearance-none focus:ring-amber-500 focus:outline-none focus:border-transparent">
       </div>
-      <div class="container mx-auto flex p-5 space-x-4">
+      <div class="container mx-auto flex justify-center p-5 space-x-4">
           <button type="submit" 
               class="bg-gray-900 hover:bg-amber-600 text-white py-3 px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto">
               Eliminar
@@ -130,6 +169,48 @@
     width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
 
 <script>
+  document.querySelectorAll('.removestore-form').forEach((button) => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      const storeId = button.getAttribute('data-remove-id');
+      const storeName = button.getAttribute('data-remove-name');
+
+      document.getElementById('remove-store-name').textContent = `¿Estas seguro de eliminar '${storeName}'?`;
+      document.getElementById('remove-store-id').value = storeId;
+      document.getElementById('removestore-form-modal').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    });
+  });
+
+  var closeRemoveBtn = document.getElementById('close-removestore-form');
+  if (closeRemoveBtn) {
+    closeRemoveBtn.addEventListener('click', function() {
+      document.getElementById('removestore-form-modal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    });
+  }
+
+  document.querySelectorAll('.editstore-form').forEach((button) => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      const storeId = button.getAttribute('data-store-id');
+      const storeName = button.getAttribute('data-store-name');
+
+      document.getElementById('edit-store-name').textContent = `Editar nombre '${storeName}'`;
+      document.getElementById('edit-store-id').value = storeId;
+      document.getElementById('edit-form-modal').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    });
+  });
+
+  var closeEditBtn = document.getElementById('close-edit-form');
+  if (closeEditBtn) {
+    closeEditBtn.addEventListener('click', function() {
+      document.getElementById('edit-form-modal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    });
+  }
+
   var openInviteBtn = document.getElementById('open-invite-form');
   if (openInviteBtn) {
     openInviteBtn.addEventListener('click', function(event) {
@@ -150,7 +231,6 @@
   var openNewStoreBtn = document.getElementById('open-new-store-form');
   if (openNewStoreBtn) {
     openNewStoreBtn.addEventListener('click', function(event) {
-      console.log("SIIIIII");
       event.preventDefault();
       document.getElementById('new-store-modal').style.display = 'block';
       document.getElementById('overlay').style.display = 'block';

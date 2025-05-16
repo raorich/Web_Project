@@ -253,7 +253,8 @@ def profile_edit_name_store(request):
         store.name = new_name
         store.save()
 
-        return JsonResponse({'message': 'User added to the Store successfully.'}, status=200)
+        return redirect('perfil')
+        # return JsonResponse({'message': 'Store name edited successfully.'}, status=200)
     else:
         return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
