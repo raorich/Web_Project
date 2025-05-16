@@ -1,47 +1,61 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Lightbox CSS -->
+<!-- Lightbox CSS & JS -->
 <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet" />
-<!-- Lightbox JS -->
 <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
 
-<div class="max-w-7xl mx-auto p-6">
-  <div class="bg-white shadow-xl rounded-2xl p-8 grid md:grid-cols-2 gap-8">
+<section class="min-h-screen bg-gray-50 py-12">
+  <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-start px-6">
 
-    <!-- Galería de imágenes -->
-    <div class="space-y-4">
+    <!-- Galería de Imágenes -->
+    <div class="w-full">
       <!-- Imagen principal -->
       <a href="{{ product.images.0 }}" data-lightbox="product-gallery">
-        <img src="{{ product.images.0 }}" class="w-full h-96 object-cover rounded-xl shadow-lg" alt="{{ product.name }}">
+        <img src="{{ product.images.0 }}" class="w-full h-[500px] object-cover rounded-2xl shadow-xl" alt="{{ product.name }}">
       </a>
 
-      <!-- Miniaturas debajo, centradas y con scroll horizontal si es necesario -->
-      <div class="flex flex-wrap justify-start gap-3 max-h-24 overflow-x-auto pt-2">
-        {% for image in product.images|slice:"1:" %}
+      <!-- Carrusel de miniaturas -->
+      <div class="mt-4 flex gap-3 overflow-x-auto pb-2">
+        {% for image in product.images|slice:"1:5" %}
           <a href="{{ image }}" data-lightbox="product-gallery">
-            <img src="{{ image }}" class="w-20 h-20 object-cover rounded-md border border-gray-300 hover:scale-105 transition-transform duration-200 shadow-sm" alt="Imagen adicional">
+            <img src="{{ image }}" class="w-24 h-24 object-cover rounded-lg border border-gray-300 hover:scale-105 transition-transform shadow-sm" alt="Imagen adicional">
           </a>
         {% endfor %}
+
+        {% if product.images|length > 5 %}
+          <a href="{{ product.images.5 }}" data-lightbox="product-gallery" class="relative group">
+            <img src="{{ product.images.5 }}" class="w-24 h-24 object-cover rounded-lg border border-gray-300 brightness-50 group-hover:brightness-75 transition" alt="Más imágenes">
+            <span class="absolute inset-0 flex items-center justify-center text-white font-semibold text-lg bg-black/40 rounded-lg">
+              +{{ product.images|length|add:"-5" }}
+            </span>
+          </a>
+
+          <!-- Resto de imágenes ocultas, solo para el Lightbox -->
+          {% for image in product.images|slice:"6:" %}
+            <a href="{{ image }}" data-lightbox="product-gallery" class="hidden"></a>
+          {% endfor %}
+        {% endif %}
       </div>
-    </div>
+    </div> <!-- <- AQUÍ se cerró correctamente el div de galería -->
 
-    <!-- Información del producto -->
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ product.name }}</h1>
-      <p class="text-gray-600 mb-4">{{ product.description }}</p>
-
-      <div class="space-y-2 text-sm text-gray-700">
-        <p><strong>Precio inicial:</strong> {{ product.starting_price }} €</p>
-        <p><strong>Precio de reserva:</strong> {{ product.reserve_price }} €</p>
-        <p><strong>Finaliza el:</strong> {{ product.auction_end_time|date:"d M Y H:i" }}</p>
-        <p><strong>Tienda:</strong> {{ product.store.name }}</p>
+    <!-- Información del Producto -->
+    <div class="w-full space-y-6">
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ product.name }}</h1>
+        <p class="text-gray-600 text-lg">{{ product.description }}</p>
       </div>
 
-      <!-- Detalles específicos según tipo -->
+      <div class="text-md space-y-1 text-gray-700">
+        <p><span class="font-semibold">Precio inicial:</span> {{ product.starting_price }} €</p>
+        <p><span class="font-semibold">Precio de reserva:</span> {{ product.reserve_price }} €</p>
+        <p><span class="font-semibold">Finaliza el:</span> {{ product.auction_end_time|date:"d M Y H:i" }}</p>
+        <p><span class="font-semibold">Tienda:</span> {{ product.store.name }}</p>
+      </div>
+
       {% if type == 'watch' %}
-      <div class="mt-6 pt-4 border-t space-y-2 text-sm text-gray-700">
-        <h2 class="font-semibold text-lg">Detalles del Reloj</h2>
+      <div class="pt-6 border-t text-sm text-gray-700 space-y-1">
+        <h2 class="text-xl font-semibold text-gray-900 mb-1">Detalles del Reloj</h2>
         <p><strong>Marca:</strong> {{ product.brand }}</p>
         <p><strong>Modelo:</strong> {{ product.model }}</p>
         <p><strong>Año:</strong> {{ product.year }}</p>
@@ -50,18 +64,17 @@
         <p><strong>Caja:</strong> {{ product.case }}</p>
       </div>
       {% elif type == 'art' %}
-      <div class="mt-6 pt-4 border-t space-y-2 text-sm text-gray-700">
-        <h2 class="font-semibold text-lg">Detalles de la Obra de Arte</h2>
+      <div class="pt-6 border-t text-sm text-gray-700 space-y-1">
+        <h2 class="text-xl font-semibold text-gray-900 mb-1">Detalles de la Obra de Arte</h2>
         <p><strong>Artista:</strong> {{ product.artist }}</p>
         <p><strong>Técnica:</strong> {{ product.technique }}</p>
         <p><strong>País:</strong> {{ product.country }}</p>
         <p><strong>Dimensiones:</strong> {{ product.dimensions }}</p>
         <p><strong>Año:</strong> {{ product.year }}</p>
       </div>
-
       {% elif type == 'automobile' %}
-      <div class="mt-6 pt-4 border-t space-y-2 text-sm text-gray-700">
-        <h2 class="font-semibold text-lg">Detalles del Automóvil</h2>
+      <div class="pt-6 border-t text-sm text-gray-700 space-y-1">
+        <h2 class="text-xl font-semibold text-gray-900 mb-1">Detalles del Automóvil</h2>
         <p><strong>Marca:</strong> {{ product.make }}</p>
         <p><strong>Modelo:</strong> {{ product.model }}</p>
         <p><strong>Restauración:</strong> {{ product.restoration }}</p>
@@ -71,14 +84,14 @@
         <p><strong>Año:</strong> {{ product.year }}</p>
       </div>
       {% endif %}
-      
-      <div class="mt-6">
-        <a href="#" class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-full transition">
-          Participar en subasta
+
+      <div class="pt-6">
+        <a href="#" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-full text-lg shadow transition">
+          Participar en la subasta
         </a>
       </div>
     </div>
 
   </div>
-</div>
+</section>
 {% endblock %}
