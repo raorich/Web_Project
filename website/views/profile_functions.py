@@ -231,8 +231,7 @@ def profile_edit_name_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
 
         new_name = new_name.strip()
@@ -388,8 +387,7 @@ def profile_edit_product_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
 
         product = None
@@ -435,8 +433,7 @@ def profile_create_product_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user doesn\'t own this store.'}, status=400)
 
         category = json_field.get('category')
@@ -487,8 +484,7 @@ def profile_remove_product_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user doesn\'t own this store.'}, status=400)
 
         try:

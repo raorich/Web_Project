@@ -101,3 +101,54 @@ def step_user_deletes_store(context, username, store_name):
 @then('the store "{store_name}" should no longer exist')
 def step_store_does_not_exist(context, store_name):
     assert not Store.objects.filter(name=store_name).exists()
+
+
+### ERRORS
+
+@when('they try to create a store with no name')
+def step_try_create_store_without_name(context):
+    context.client = Client()
+    user_data = context.users.get("alice")
+    context.client.login(username="alice", password=user_data["password"])
+    response = context.client.get('/add-new-store/', {})  # no store_name
+    context.response = response
+
+@when('they try to create a store named "{store_name}"')
+def step_try_create_duplicate_store(context, store_name):
+    response = context.client.get('/add-new-store/', {'store_name': store_name})
+    context.response = response
+
+@when('"{username}" tries to add non-existent user "{ghost_user}" to "{store_name}"')
+def step_add_non_existent_user(context, username, ghost_user, store_name):
+    store = Store.objects.get(name=store_name)
+    context.client.login(username=username, password=context.users[username]["password"])
+    response = context.client.get(
+        reverse('profile_add_user_store'),
+        {'store_id': store.id, 'user_username': ghost_user}
+    )
+    context.response = response
+
+@when('"{username}" tries to rename store "{old_name}" to "{new_name}"')
+def step_rename_store_invalid(context, username, old_name, new_name):
+    store = Store.objects.get(name=old_name)
+    context.client.login(username=username, password=context.users[username]["password"])
+    response = context.client.get(
+        reverse('profile_edit_name_store'),
+        {'store_id': store.id, 'new_name': new_name}
+    )
+    context.response = response
+
+@when('"{username}" tries to add user "{other_username}" to the store "{store_name}"')
+def step_try_to_add_user_without_ownership(context, username, other_username, store_name):
+    store = Store.objects.get(name=store_name)
+    context.client = Client()
+    context.client.login(username=username, password=context.users[username]["password"])
+    response = context.client.get(
+        reverse('profile_add_user_store'),
+        {'store_id': store.id, 'user_username': other_username}
+    )
+    context.response = response
+
+@then('the response should contain "{error_message}"')
+def step_response_should_contain(context, error_message):
+    assert error_message in context.response.content.decode()
