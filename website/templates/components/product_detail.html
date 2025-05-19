@@ -5,12 +5,11 @@
 <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
 
-<section class="min-h-screen bg-gray-50 py-12">
+<section vocab="https://schema.org/" typeof="Product" class="min-h-screen bg-gray-50 py-12">
   <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-start px-6">
 
     <!-- Galería de Imágenes -->
     <div class="w-full">
-      <!-- Imagen principal -->
       <a href="{{ product.images.0 }}" data-lightbox="product-gallery">
         <img src="{{ product.images.0 }}" class="w-full h-[500px] object-cover rounded-2xl shadow-xl" alt="{{ product.name }}">
       </a>
@@ -31,57 +30,65 @@
             </span>
           </a>
 
-          <!-- Resto de imágenes ocultas, solo para el Lightbox -->
+          <!-- Imágenes restantes ocultas para Lightbox -->
           {% for image in product.images|slice:"6:" %}
             <a href="{{ image }}" data-lightbox="product-gallery" class="hidden"></a>
           {% endfor %}
         {% endif %}
       </div>
-    </div> <!-- <- AQUÍ se cerró correctamente el div de galería -->
+    </div>
 
     <!-- Información del Producto -->
     <div class="w-full space-y-6">
       <div>
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ product.name }}</h1>
-        <p class="text-gray-600 text-lg">{{ product.description }}</p>
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">
+          <span property="name">{{ product.name }}</span>
+        </h1>
+        <p class="text-gray-600 text-lg" property="description">{{ product.description }}</p>
       </div>
 
       <div class="text-md space-y-1 text-gray-700">
-        <p><span class="font-semibold">Precio inicial:</span> {{ product.starting_price }} €</p>
+        <div property="offers" typeof="Offer">
+          <span class="font-semibold">Precio inicial:</span>
+          <span property="price">{{ product.starting_price }}</span> €
+          <meta property="priceCurrency" content="EUR" />
+        </div>
         <p><span class="font-semibold">Precio de reserva:</span> {{ product.reserve_price }} €</p>
         <p><span class="font-semibold">Finaliza el:</span> {{ product.auction_end_time|date:"d M Y H:i" }}</p>
-        <p><span class="font-semibold">Tienda:</span> {{ product.store.name }}</p>
+        <div property="seller" typeof="Organization">
+          <p><span class="font-semibold">Tienda:</span> <span property="name">{{ product.store.name }}</span></p>
+        </div>
       </div>
 
       {% if type == 'watch' %}
-      <div class="pt-6 border-t text-sm text-gray-700 space-y-1">
+      <div class="pt-6 border-t text-sm text-gray-700 space-y-1" typeof="ProductModel">
         <h2 class="text-xl font-semibold text-gray-900 mb-1">Detalles del Reloj</h2>
-        <p><strong>Marca:</strong> {{ product.brand }}</p>
-        <p><strong>Modelo:</strong> {{ product.model }}</p>
-        <p><strong>Año:</strong> {{ product.year }}</p>
+        <p><strong>Marca:</strong> <span property="brand">{{ product.brand }}</span></p>
+        <p><strong>Modelo:</strong> <span property="model">{{ product.model }}</span></p>
+        <p><strong>Año:</strong> <span property="releaseDate">{{ product.year }}</span></p>
         <p><strong>Estado:</strong> {{ product.condition }}</p>
         <p><strong>Documentación:</strong> {{ product.documentation }}</p>
         <p><strong>Caja:</strong> {{ product.case }}</p>
       </div>
       {% elif type == 'art' %}
-      <div class="pt-6 border-t text-sm text-gray-700 space-y-1">
+      <div class="pt-6 border-t text-sm text-gray-700 space-y-1" typeof="VisualArtwork">
         <h2 class="text-xl font-semibold text-gray-900 mb-1">Detalles de la Obra de Arte</h2>
-        <p><strong>Artista:</strong> {{ product.artist }}</p>
-        <p><strong>Técnica:</strong> {{ product.technique }}</p>
+        <p><strong>Artista:</strong> <span property="creator">{{ product.artist }}</span></p>
+        <p><strong>Técnica:</strong> <span property="artMedium">{{ product.technique }}</span></p>
         <p><strong>País:</strong> {{ product.country }}</p>
-        <p><strong>Dimensiones:</strong> {{ product.dimensions }}</p>
-        <p><strong>Año:</strong> {{ product.year }}</p>
+        <p><strong>Dimensiones:</strong> <span property="width">{{ product.dimensions }}</span></p>
+        <p><strong>Año:</strong> <span property="dateCreated">{{ product.year }}</span></p>
       </div>
       {% elif type == 'automobile' %}
-      <div class="pt-6 border-t text-sm text-gray-700 space-y-1">
+      <div class="pt-6 border-t text-sm text-gray-700 space-y-1" typeof="Vehicle">
         <h2 class="text-xl font-semibold text-gray-900 mb-1">Detalles del Automóvil</h2>
-        <p><strong>Marca:</strong> {{ product.make }}</p>
-        <p><strong>Modelo:</strong> {{ product.model }}</p>
+        <p><strong>Marca:</strong> <span property="brand">{{ product.make }}</span></p>
+        <p><strong>Modelo:</strong> <span property="model">{{ product.model }}</span></p>
         <p><strong>Restauración:</strong> {{ product.restoration }}</p>
         <p><strong>Transmisión:</strong> {{ product.transmission }}</p>
-        <p><strong>Color exterior:</strong> {{ product.exterior_color }}</p>
+        <p><strong>Color exterior:</strong> <span property="color">{{ product.exterior_color }}</span></p>
         <p><strong>Estado del motor:</strong> {{ product.engine_condition }}</p>
-        <p><strong>Año:</strong> {{ product.year }}</p>
+        <p><strong>Año:</strong> <span property="vehicleModelDate">{{ product.year }}</span></p>
       </div>
       {% endif %}
 
