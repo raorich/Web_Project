@@ -48,7 +48,7 @@ def profile_history_acquision(request):
 
     acquisition_history = models.AcquisitionHistory.objects.filter(user=user)
     acquisition_history, total_pages = paginate_objects(acquisition_history, num_featureds=TOP, page=page)
-    html = render(request, 'components/table_history_acquision_ajax.html', {'acquisition': acquisition_history}).content.decode('utf-8')
+    html = render(request, 'components/history_acquision_stores_ajax.html', {'acquisition': acquisition_history}).content.decode('utf-8')
     return JsonResponse({
             'html': html,
             'total_pages': total_pages
@@ -69,7 +69,7 @@ def profile_create_store(request):
 
     if created:
         store.users.add(user)
-        user_extended = models.UserExtended.objects.get(user=user)
+        user_extended, u_created = models.UserExtended.objects.get_or_create(user=user)
         user_extended.own_store = True
         user_extended.save()
 
@@ -119,11 +119,13 @@ def profile_remove_user_store(request):
             store.delete()
 
         # if the user has no more stores remove own_store
-        user_extended = models.UserExtended.objects.get(user=user_to_remove)
-        other_stores = models.Store.get_stores_from_user(user_to_remove)
-        if not other_stores:
-            user_extended.own_store = False
-            user_extended.save()
+        user_extended = models.UserExtended.objects.filter(user=user_to_remove)
+        if user_extended:
+            user_extended = user_extended.first()
+            other_stores = models.Store.get_stores_from_user(user_to_remove)
+            if not other_stores:
+                user_extended.own_store = False
+                user_extended.save()
 
         return redirect('perfil')
     else:
@@ -142,14 +144,22 @@ def profile_remove_store(request):
     
     if store:
         store = store.first()
+
+        if not user in store.users.all():
+            return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
+
+        for u in store.users.all():
+            store.users.remove(u)
+            user_extended = models.UserExtended.objects.filter(user=u)
+            print(user_extended)
+            if user_extended:
+                user_extended = user_extended.first()
+                other_stores = models.Store.get_stores_from_user(u)
+                if not other_stores:
+                    user_extended.own_store = False
+                    user_extended.save()
+            
         store.users.clear()
-        
-        user_extended = models.UserExtended.objects.get(user=user)
-        other_stores = models.Store.get_stores_from_user(user)
-        if not other_stores:
-            user_extended.own_store = False
-            user_extended.save()
-        
         store.save()
         store.delete()
 
@@ -198,7 +208,7 @@ def profile_add_user_store(request):
 
         store.users.add(user_to_add)
         store.save()
-        user_extended = models.UserExtended.objects.get(user=user_to_add)
+        user_extended, create = models.UserExtended.objects.get_or_create(user=user_to_add)
         user_extended.own_store = True
         user_extended.save()
 
@@ -221,8 +231,7 @@ def profile_edit_name_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
 
         new_name = new_name.strip()
@@ -244,7 +253,8 @@ def profile_edit_name_store(request):
         store.name = new_name
         store.save()
 
-        return JsonResponse({'message': 'User added to the Store successfully.'}, status=200)
+        return redirect('perfil')
+        # return JsonResponse({'message': 'Store name edited successfully.'}, status=200)
     else:
         return JsonResponse({'error': 'Store doesn\'t exists.'}, status=400)
 
@@ -378,8 +388,7 @@ def profile_edit_product_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user don\'t own this store.'}, status=400)
 
         product = None
@@ -425,8 +434,7 @@ def profile_create_product_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user doesn\'t own this store.'}, status=400)
 
         category = json_field.get('category')
@@ -477,8 +485,7 @@ def profile_remove_product_store(request):
 
     if store:
         store = store.first()
-        users_list = store.users 
-        if not user in users_list:
+        if not user in store.users.all():
             return JsonResponse({'error': 'This user doesn\'t own this store.'}, status=400)
 
         try:

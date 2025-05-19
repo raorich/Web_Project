@@ -1,0 +1,5 @@
+THE WEBSITE MUST BE RUNNING:
+sudo docker-compose up
+
+TO RUN BEHAVE TESTS:
+sudo docker-compose exec web poetry run python manage.py behave

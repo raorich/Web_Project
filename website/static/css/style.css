@@ -1,10 +1,22 @@
 #login-btn {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 @media (max-width: 768px) {
-    #login-btn {
-      margin-right: 0;
-      margin-bottom: 10px;
-    }
+  #login-btn {
+    margin-right: 0;
+    margin-bottom: 10px;
   }
+}
+
+.profile-modal {
+  display: none; 
+  position: fixed; 
+  top: 20%; 
+  left: 50%; 
+  transform: translateX(-50%);
+  background: white; 
+  padding: 20px; 
+  border: 1px solid #ccc; 
+  z-index: 1000;
+}
