@@ -48,16 +48,17 @@
       </div>
 
       <div class="text-md space-y-1 text-gray-700">
-        <div property="offers" typeof="Offer">
-          <span class="font-semibold">Precio inicial:</span>
-          <span property="price">{{ product.starting_price }}</span> €
-          <meta property="priceCurrency" content="EUR" />
-        </div>
-        <p><span class="font-semibold">Precio de reserva:</span> {{ product.reserve_price }} €</p>
-        <p><span class="font-semibold">Finaliza el:</span> {{ product.auction_end_time|date:"d M Y H:i" }}</p>
+      <div property="offers" typeof="Offer">
+        <span class="font-semibold">Precio inicial:</span>
+        <span property="price">{{ product.starting_price }}</span> €
+        <meta property="priceCurrency" content="EUR" />
+
         <div property="seller" typeof="Organization">
           <p><span class="font-semibold">Tienda:</span> <span property="name">{{ product.store.name }}</span></p>
         </div>
+      </div>
+        <p><span class="font-semibold">Precio de reserva:</span> {{ product.reserve_price }} €</p>
+        <p><span class="font-semibold">Finaliza el:</span> {{ product.auction_end_time|date:"d M Y H:i" }}</p>
       </div>
 
       {% if type == 'watch' %}
