@@ -83,16 +83,6 @@ http://127.0.0.1:8000
 
 ---
 
-## Screenshots / Visuals
-*(Add images in a `/docs` folder and reference them here, e.g.,)*
-
-```markdown
-![Home Page](./docs/homepage.png)
-![Product Detail](./docs/product_detail.png)
-```
-
----
-
 ## Technical Decisions
 - **Store-Product Relationship:** 1-N instead of N-N to ensure uniqueness  
 - **Bid Model:** Intermediate model with ForeignKeys to capture bid history  
